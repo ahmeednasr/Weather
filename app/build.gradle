@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'androidx.navigation.safeargs'
     id 'kotlin-kapt'
 
 }
@@ -41,7 +42,11 @@ android {
 
 dependencies {
 
-    //google services
+    //navComponent
+    implementation("androidx.navigation:navigation-fragment-ktx:2.6.0")
+    implementation("androidx.navigation:navigation-ui-ktx:2.6.0")
+
+    //google services location
     implementation 'com.google.android.gms:play-services-location:21.0.1'
 
     //picasso
@@ -49,7 +54,6 @@ dependencies {
 
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.15.1'
-
     //coroutines
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1'
@@ -62,10 +66,12 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.10.1'
 
     //room
-    implementation "androidx.room:room-ktx:2.5.1"
-    implementation "androidx.room:room-runtime:2.5.1"
-    kapt "androidx.room:room-compiler:2.5.1"
+    implementation "androidx.room:room-ktx:2.5.2"
+    implementation "androidx.room:room-runtime:2.5.2"
+    kapt "androidx.room:room-compiler:2.5.2"
 
+    //Lottie Animation
+    implementation 'com.airbnb.android:lottie:5.2.0'
     //default
     implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'

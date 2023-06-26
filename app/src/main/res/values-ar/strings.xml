@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="hello_blank_fragment">test test</string>
     <string name="app_name">الطقس</string>
-    <string name="hello">اهلا وسهلا</string>
+    <string name="hello">hello</string>
+    <string name="City" >المدينه</string>
+    <string name="weather_alerts">التنبيهات</string>
+    <string name="favorite">المفضله</string>
+    <string name="settings">الاعدادات</string>
+    <string name="more">المزيد</string>
+    <string name="temperature">00°C</string>
+    <string name="time">12:00</string>
+    <string name="tempunit">°س</string>
+    <string name="Today">اليوم</string>
+    <string name="Tomorrow">غدا</string>
 </resources>

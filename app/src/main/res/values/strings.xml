@@ -1,4 +1,16 @@
 <resources>
+    <string name="hello_blank_fragment">test test</string>
     <string name="app_name">Weather</string>
     <string name="hello">helloWorld</string>
+    <string name="weather_alerts">weather alerts</string>
+    <string name="favorite">Favorite</string>
+    <string name="settings">settings</string>
+    <string name="City">City</string>
+    <string name="more">more</string>
+    <string name="temperature">00°C</string>
+    <string name="time">12:00</string>
+    <string name="tempunit">°C</string>
+    <string name="Today">Today</string>
+    <string name="Tomorrow">Tomorrow</string>
+
 </resources>
