@@ -1,5 +1,6 @@
 <resources>
     <string name="hello_blank_fragment">test test</string>
+    <string name="Welcome">"Welcome</string>
     <string name="app_name">Weather</string>
     <string name="hello">helloWorld</string>
     <string name="weather_alerts">weather alerts</string>
@@ -12,5 +13,16 @@
     <string name="tempunit">°C</string>
     <string name="Today">Today</string>
     <string name="Tomorrow">Tomorrow</string>
+    <string name="language">language</string>
+    <string name="units">units</string>
+    <string name="metric">metric</string>
+    <string name="imperial">imperial</string>
+    <string name="save">save</string>
+    <string name="home">Home</string>
+    <string name="pressure">Pressure</string>
+    <string name="wind">Wind</string>
+    <string name="humidity">humidity</string>
+    <string name="map">map</string>
+    <string name="title_activity_maps">MapsActivity</string>
 
 </resources>

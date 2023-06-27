@@ -10,15 +10,10 @@
         android:name="com.example.weather.home.location_weather_view.LocationWeatherView"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_homeFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_weatherAlertsFragment"
-            app:destination="@id/weatherAlertsFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_favoriteFragment"
-            app:destination="@id/favoriteFragment" />
+        <argument
+            android:name="longt"
+            app:argType="float"
+            android:defaultValue="0.12" />
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
@@ -35,4 +30,9 @@
         android:name="com.example.weather.WeatherAlertsFragment"
         android:label="fragment_weather_alerts"
         tools:layout="@layout/fragment_weather_alerts" />
+    <fragment
+        android:id="@+id/myMapFragment"
+        android:name="com.example.weather.map.MyMapFragment"
+        android:label="fragment_my_map"
+        tools:layout="@layout/fragment_my_map" />
 </navigation>

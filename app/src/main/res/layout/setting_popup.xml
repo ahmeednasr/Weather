@@ -2,11 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/settingsFragment"
+    android:id="@+id/settings_popup"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-    tools:context=".SettingsFragment">
+    android:background="@color/dark_blue">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -29,6 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="location"
+                android:textColor="#FFFFFF"
                 app:layout_constraintStart_toStartOf="@+id/location_group"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -44,13 +44,15 @@
                     android:id="@+id/gps"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="gps" />
+                    android:text="gps"
+                    android:textColor="#FFFFFF" />
 
                 <RadioButton
                     android:id="@+id/map"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="map" />
+                    android:text="map"
+                    android:textColor="#FFFFFF" />
             </RadioGroup>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -66,6 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/units"
+                android:textColor="#FFFFFF"
                 app:layout_constraintStart_toStartOf="@+id/units_group"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -81,13 +84,15 @@
                     android:id="@+id/metric"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/metric" />
+                    android:text="@string/metric"
+                    android:textColor="#FFFFFF" />
 
                 <RadioButton
                     android:id="@+id/imperial"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/imperial" />
+                    android:text="@string/imperial"
+                    android:textColor="#FFFFFF" />
             </RadioGroup>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -101,6 +106,7 @@
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:text="@string/language"
+                android:textColor="#FFFFFF"
                 app:layout_constraintStart_toStartOf="@+id/language_group"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -116,27 +122,18 @@
                     android:id="@+id/arabic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="العربيه" />
+                    android:text="العربيه"
+                    android:textColor="#FFFFFF" />
 
                 <RadioButton
                     android:id="@+id/english"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="english" />
+                    android:text="english"
+                    android:textColor="#FFFFFF" />
             </RadioGroup>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/save"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.13999999" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

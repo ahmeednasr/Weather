@@ -1,19 +1,19 @@
 package com.example.weather.home.location_weather_repo.location_weather_pojo
 
 data class Current(
-    val clouds: Int,
-    val dew_point: Double,
-    val dt: Int,
-    val feels_like: Double,
-    val humidity: Int,
-    val pressure: Int,
-    val sunrise: Int,
-    val sunset: Int,
-    val temp: Double,
-    val uvi: Double,
-    val visibility: Int,
-    val weather: List<Weather>,
-    val wind_deg: Int,
-    val wind_gust: Double,
-    val wind_speed: Double
+    var clouds: Int,
+    var dew_point: Double,
+    var dt: Int,
+    var feels_like: Double,
+    var humidity: Int,
+    var pressure: Int,
+    var sunrise: Int,
+    var sunset: Int,
+    var temp: Double,
+    var uvi: Double,
+    var visibility: Int,
+    var weather: List<Weather>,
+    var wind_deg: Int,
+    var wind_gust: Double,
+    var wind_speed: Double
 )

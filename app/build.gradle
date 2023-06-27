@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'androidx.navigation.safeargs'
     id 'kotlin-kapt'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 
 }
 
@@ -16,7 +17,7 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
-
+        manifestPlaceholders = [google_maps_api_key: "AIzaSyAWElsI7ATMbgeKeX-qZOHD-U5uiSNmzU0"]
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -41,6 +42,11 @@ android {
 
 
 dependencies {
+    //map
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+
+    //swipe refresh layout
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
     //navComponent
     implementation("androidx.navigation:navigation-fragment-ktx:2.6.0")

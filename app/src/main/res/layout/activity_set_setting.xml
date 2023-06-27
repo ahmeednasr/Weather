@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".system_settings.SetSetting"
+    android:background="@color/dark_blue"
+    >
+
+    <TextView
+        android:id="@+id/location_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="148dp"
+        android:text="location"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.238"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/mlocation_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@+id/location_title"
+        app:layout_constraintStart_toStartOf="@+id/units_group"
+        app:layout_constraintTop_toTopOf="@+id/location_title">
+
+        <RadioButton
+            android:id="@+id/gps"
+            android:layout_width="73dp"
+            android:layout_height="wrap_content"
+            android:text="gps"
+            android:textColor="#FFFFFF"
+            android:textColorHighlight="#FFFFFF"
+            android:textColorLink="#FFFFFF" />
+
+        <RadioButton
+            android:id="@+id/map"
+            android:layout_width="97dp"
+            android:layout_height="wrap_content"
+            android:text="map"
+            android:textColor="#FFFFFF"
+            android:textColorHighlight="#FFFFFF"
+            android:textColorLink="#FFFFFF" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/units_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/units"
+        android:textColor="#FFFFFF"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@+id/location_title"
+        app:layout_constraintTop_toBottomOf="@+id/location_title" />
+
+    <RadioGroup
+        android:id="@+id/units_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/units_title"
+        app:layout_constraintStart_toEndOf="@+id/language_title"
+        app:layout_constraintTop_toTopOf="@+id/units_title">
+
+        <RadioButton
+            android:id="@+id/metric"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/metric"
+            android:textColor="#FFFFFF"
+            android:textColorHighlight="#FFFFFF"
+            android:textColorLink="#FFFFFF" />
+
+        <RadioButton
+            android:id="@+id/imperial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/imperial"
+            android:textColor="#FFFFFF"
+            android:textColorHighlight="#FFFFFF"
+            android:textColorLink="#FFFFFF" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/language_title"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/language"
+        android:textColor="#FFFFFF"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@+id/units_title"
+        app:layout_constraintTop_toBottomOf="@+id/units_title" />
+
+    <RadioGroup
+        android:id="@+id/language_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/language_title"
+        app:layout_constraintStart_toEndOf="@+id/language_title"
+        app:layout_constraintTop_toTopOf="@+id/language_title">
+
+        <RadioButton
+            android:id="@+id/arabic"
+            android:layout_width="77dp"
+            android:layout_height="wrap_content"
+            android:text="العربيه"
+            android:textColor="#FFFFFF"
+            android:textColorHighlight="#FFFFFF"
+            android:textColorLink="#FFFFFF" />
+
+        <RadioButton
+            android:id="@+id/english"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="english"
+            android:textColor="#FFFFFF"
+            android:textColorHighlight="#FFFFFF"
+            android:textColorLink="#FFFFFF" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:text="@string/save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/language_group" />
+
+    <!--    <androidx.fragment.app.FragmentContainerView-->
+<!--        android:id="@+id/fragment_view"-->
+<!--        android:name="com.example.weather.map.MyMapFragment"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:visibility="invisible"-->
+<!--        app:layout="@layout/fragment_my_map"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        tools:layout="@layout/fragment_my_map" />-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

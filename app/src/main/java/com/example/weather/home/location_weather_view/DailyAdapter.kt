@@ -43,14 +43,15 @@ class DailyAdapter(val context: Context) :
             calendar.get(Calendar.DAY_OF_YEAR) == (calendar.timeInMillis / 86400000).toInt()
         val outputFormat = SimpleDateFormat("EEE", Locale.getDefault())
         val time = outputFormat.format(date)
-        when (position) {
-            0 -> {
-                holder.binding.day.text = context.getString(R.string.Tomorrow)
-            }
-            else -> {
-                holder.binding.day.text = time
-            }
-        }
+        holder.binding.day.text = time
+//        when (position) {
+//            0 -> {
+//                holder.binding.day.text = context.getString(R.string.Tomorrow)
+//            }
+//            else -> {
+//                holder.binding.day.text = time
+//            }
+//        }
         holder.binding.dayTemp.text = "$max/$min"
         holder.binding.dayDescription.text = currentDay.weather[0].description
         Glide.with(context)

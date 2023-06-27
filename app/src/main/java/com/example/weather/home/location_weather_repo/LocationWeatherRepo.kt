@@ -17,7 +17,6 @@ class LocationWeatherRepo private constructor(var remoteSource: LocationWeatherR
             return INSTANCE ?: synchronized(this) {
                 val instance = LocationWeatherRepo(remoteSource)
                 INSTANCE = instance
-                Log.i("MYTAG", "getInstance in HomeRepo")
                 instance
             }
         }
@@ -33,9 +32,7 @@ class LocationWeatherRepo private constructor(var remoteSource: LocationWeatherR
             remoteSource.getCurrentLocationResponse(latitude, longitude, units, language)
         res.hourly=res.hourly.subList(0,25)
         res.daily=res.daily.subList(1,7)
-        Log.i("MYTAG", "getCurrentLocationResponse in HomeRepo")
         return flow {
-            Log.i("MYTAG", "flow in getCurrentLocationResponse in HomeRepo")
             emit(res)
         }.flowOn(Dispatchers.IO)
     }

@@ -7,6 +7,15 @@
     android:layout_height="match_parent"
     >
 
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <ScrollView
             android:id="@+id/page_layout"
             android:layout_width="match_parent"
@@ -38,7 +47,7 @@
                         app:cardBackgroundColor="@color/white"
                         app:cardCornerRadius="20dp"
                         app:cardElevation="20dp"
-                        app:cardMaxElevation="10dp" >
+                        app:cardMaxElevation="10dp">
 
                     </androidx.cardview.widget.CardView>
 
@@ -144,13 +153,209 @@
                     app:layout_constraintStart_toStartOf="@+id/card"
                     app:layout_constraintTop_toBottomOf="@+id/card">
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/daily_recycler"
+                    <FrameLayout
+                        android:id="@+id/grid"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:layout_constraintTop_toBottomOf="@id/hourly_recycler"
-                        tools:itemCount="7"
-                        tools:listitem="@layout/daily_item" />
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15dp"
+                        android:layout_marginBottom="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/daily_recycler">
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/grid_cardview"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:alpha=".15"
+                            app:cardBackgroundColor="@color/white"
+                            app:cardCornerRadius="20dp"
+                            app:cardElevation="20dp"
+                            app:cardMaxElevation="10dp">
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:id="@+id/visibilty_img"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                app:layout_constraintEnd_toEndOf="@+id/wind_img"
+                                app:layout_constraintTop_toTopOf="@+id/cloud_img"
+                                app:srcCompat="@drawable/ic_round_visibility_24" />
+
+                            <TextView
+                                android:id="@+id/visibilty_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="value"
+                                android:textColor="#FFFFFF"
+                                app:layout_constraintEnd_toEndOf="@+id/visibilty_img"
+                                app:layout_constraintStart_toStartOf="@+id/visibilty_img"
+                                app:layout_constraintTop_toBottomOf="@+id/visibilty_img" />
+
+                            <TextView
+                                android:id="@+id/visibilty"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Visibility"
+                                android:textColor="#FFFFFF"
+                                app:layout_constraintEnd_toEndOf="@+id/visibilty_img"
+                                app:layout_constraintStart_toStartOf="@+id/visibilty_img"
+                                app:layout_constraintTop_toBottomOf="@+id/visibilty_value" />
+
+                            <ImageView
+                                android:id="@+id/ultr_img"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                app:layout_constraintEnd_toEndOf="@+id/humidity_img"
+                                app:layout_constraintStart_toStartOf="@+id/humidity_img"
+                                app:layout_constraintTop_toTopOf="@+id/cloud_img"
+                                app:srcCompat="@drawable/ic_baseline_wb_sunny_24" />
+
+                            <TextView
+                                android:id="@+id/ultra_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="value"
+                                android:textColor="#FFFFFF"
+                                app:layout_constraintEnd_toEndOf="@+id/ultr_img"
+                                app:layout_constraintStart_toStartOf="@+id/ultr_img"
+                                app:layout_constraintTop_toBottomOf="@+id/ultr_img" />
+
+                            <TextView
+                                android:id="@+id/ultra"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Ultra Vilot"
+                                android:textColor="#FFFFFF"
+                                app:layout_constraintEnd_toEndOf="@+id/ultr_img"
+                                app:layout_constraintStart_toStartOf="@+id/ultr_img"
+                                app:layout_constraintTop_toBottomOf="@+id/ultra_value" />
+
+                            <ImageView
+                                android:id="@+id/cloud_img"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:layout_marginTop="8dp"
+                                app:layout_constraintEnd_toEndOf="@+id/pressure_img"
+                                app:layout_constraintStart_toStartOf="@+id/pressure_img"
+                                app:layout_constraintTop_toBottomOf="@+id/pressure"
+                                app:srcCompat="@drawable/ic_round_wb_cloudy_24" />
+
+                            <TextView
+                                android:id="@+id/cloud_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="value"
+                                android:textColor="#FFFFFF"
+                                app:layout_constraintEnd_toEndOf="@+id/cloud_img"
+                                app:layout_constraintStart_toStartOf="@+id/cloud_img"
+                                app:layout_constraintTop_toBottomOf="@+id/cloud_img" />
+
+                            <TextView
+                                android:id="@+id/Cloud"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Cloud"
+                                android:textColor="#FFFFFF"
+                                app:layout_constraintEnd_toEndOf="@+id/cloud_value"
+                                app:layout_constraintStart_toStartOf="@+id/cloud_value"
+                                app:layout_constraintTop_toBottomOf="@+id/cloud_value" />
+
+                            <ImageView
+                                android:id="@+id/humidity_img"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                app:layout_constraintEnd_toStartOf="@+id/wind_img"
+                                app:layout_constraintStart_toEndOf="@+id/pressure_img"
+                                app:layout_constraintTop_toTopOf="@+id/pressure_img"
+                                app:srcCompat="@drawable/ic_round_water_drop_24" />
+
+                            <TextView
+                                android:id="@+id/humidity_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="value"
+                                android:textColor="#FFFFFF"
+                                app:layout_constraintEnd_toEndOf="@+id/humidity_img"
+                                app:layout_constraintStart_toStartOf="@+id/humidity_img"
+                                app:layout_constraintTop_toBottomOf="@+id/humidity_img" />
+
+                            <TextView
+                                android:id="@+id/humidity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/humidity"
+                                android:textColor="#FFFFFF"
+                                app:layout_constraintEnd_toEndOf="@+id/humidity_img"
+                                app:layout_constraintStart_toStartOf="@+id/humidity_img"
+                                app:layout_constraintTop_toBottomOf="@+id/humidity_value" />
+
+                            <ImageView
+                                android:id="@+id/wind_img"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:layout_marginEnd="32dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="@+id/pressure_img"
+                                app:srcCompat="@drawable/ic_round_wind_power_24" />
+
+                            <TextView
+                                android:id="@+id/wind_speed_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="value"
+                                android:textColor="#FFFFFF"
+                                app:layout_constraintEnd_toEndOf="@+id/wind_img"
+                                app:layout_constraintStart_toStartOf="@+id/wind_img"
+                                app:layout_constraintTop_toBottomOf="@+id/wind_img" />
+
+                            <TextView
+                                android:id="@+id/wind"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/wind"
+                                android:textColor="#FFFFFF"
+                                app:layout_constraintEnd_toEndOf="@+id/wind_img"
+                                app:layout_constraintStart_toStartOf="@+id/wind_img"
+                                app:layout_constraintTop_toBottomOf="@+id/wind_speed_value" />
+
+                            <ImageView
+                                android:id="@+id/pressure_img"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:layout_marginStart="32dp"
+                                android:layout_marginTop="16dp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:srcCompat="@drawable/ic_round_multiline_chart_24" />
+
+                            <TextView
+                                android:id="@+id/pressure_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="value"
+                                android:textColor="#FFFFFF"
+                                app:layout_constraintEnd_toEndOf="@+id/pressure_img"
+                                app:layout_constraintStart_toStartOf="@+id/pressure_img"
+                                app:layout_constraintTop_toBottomOf="@+id/pressure_img" />
+
+                            <TextView
+                                android:id="@+id/pressure"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/pressure"
+                                android:textColor="#FFFFFF"
+                                app:layout_constraintEnd_toEndOf="@+id/pressure_img"
+                                app:layout_constraintStart_toStartOf="@+id/pressure_img"
+                                app:layout_constraintTop_toBottomOf="@+id/pressure_value" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </FrameLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/hourly_recycler"
@@ -162,10 +367,22 @@
                         app:layout_constraintTop_toTopOf="parent"
                         tools:itemCount="7"
                         tools:listitem="@layout/hourly_item" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/daily_recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:nestedScrollingEnabled="false"
+                        app:layout_constraintTop_toBottomOf="@id/hourly_recycler"
+                        tools:itemCount="7"
+                        tools:listitem="@layout/daily_item" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
     <ProgressBar
         android:id="@+id/loading"
@@ -178,6 +395,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
+

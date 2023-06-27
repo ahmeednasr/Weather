@@ -19,11 +19,15 @@ import java.util.*
 class LocationWeatherViewModel(private var repo: LocationWeatherRepoInterface) : ViewModel() {
     private var _postStateFlow =
         MutableStateFlow<LocationWeatherApiState>(LocationWeatherApiState.Loading)
-    val responseFlow: StateFlow<LocationWeatherApiState> = _postStateFlow
-    private val _postTimeStateFlow = MutableStateFlow(0L)
-    val currentTimeStateFlow: StateFlow<Long> = _postTimeStateFlow
+    val responseFlow: StateFlow<LocationWeatherApiState>
+    get()=_postStateFlow
+    private var _postTimeStateFlow = MutableStateFlow(0L)
+    val currentTimeStateFlow: StateFlow<Long>
+    get()=_postTimeStateFlow
+
+    //private var _locationState= MutableStateFlow(String)
+
     init {
-        Log.i("MYTAG", "init HomeViewModel")
         //getTime()
     }
      fun getTime(){
@@ -37,15 +41,17 @@ class LocationWeatherViewModel(private var repo: LocationWeatherRepoInterface) :
     fun getCurrentLocationResponse(
         latitude: Double, longitude: Double, units: String, language: String
     ) {
+        _postStateFlow.value=LocationWeatherApiState.Loading
         viewModelScope.launch {
-            Log.i("MYTAG", "viewModelScope.launch in HomeViewModel")
             try {
                 repo.getCurrentLocationResponse(latitude, longitude, units, language)
                     .collect { data ->
+                        Log.d("errMy",data.toString())
                         _postStateFlow.value = LocationWeatherApiState.Success(data)
                     }
 
             } catch (e: Exception) {
+                Log.d("errMy",e.toString())
                 _postStateFlow.value = LocationWeatherApiState.Failure(e)
             }
 //            repo.getCurrentLocationResponse(latitude, longitude, units, language)
@@ -60,6 +66,5 @@ class LocationWeatherViewModel(private var repo: LocationWeatherRepoInterface) :
 
     override fun onCleared() {
         super.onCleared()
-        Log.i("MYTAG", "on clear HomeViewModel")
     }
 }

@@ -2,6 +2,7 @@
 <resources>
     <string name="hello_blank_fragment">test test</string>
     <string name="app_name">الطقس</string>
+    <string name="Welcome">اهلا بكم</string>
     <string name="hello">hello</string>
     <string name="City" >المدينه</string>
     <string name="weather_alerts">التنبيهات</string>
@@ -13,4 +14,12 @@
     <string name="tempunit">°س</string>
     <string name="Today">اليوم</string>
     <string name="Tomorrow">غدا</string>
+    <string name="language">language</string>
+    <string name="units">units</string>
+    <string name="metric">metric</string>
+    <string name="imperial">imperial</string>
+    <string name="save">save</string>
+    <string name="wind">Wind</string>
+    <string name="humidity">humidity</string>
+    <string name="map" />
 </resources>

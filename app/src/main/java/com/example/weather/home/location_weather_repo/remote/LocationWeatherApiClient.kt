@@ -14,7 +14,6 @@ class LocationWeatherApiClient : LocationWeatherRemoteSource {
             .baseUrl(BASE_URL)
             .build()
             .create(LocationWeatherApiService::class.java)
-        Log.i("MYTAG", "init in HomeApiClient")
     }
 
     companion object {
@@ -23,7 +22,6 @@ class LocationWeatherApiClient : LocationWeatherRemoteSource {
         private var apiClient: LocationWeatherApiClient? = null
         fun getInstance(): LocationWeatherApiClient {
             return apiClient ?: synchronized(this) {
-                Log.i("MYTAG", "getInstance() in HomeApiClient")
                 val tmp = LocationWeatherApiClient()
                 apiClient = tmp
                 tmp
@@ -38,7 +36,7 @@ class LocationWeatherApiClient : LocationWeatherRemoteSource {
         language: String,
     ): LocationWeatherResponse {
         val response=retrofit.getCurrentLocationWeather(latitude, longitude, units, language)
-        Log.i("MYTAG", "getCurrentLocationResponse() in HomeApiClient$response")
+        Log.d("errMy",response.toString())
         return response
     }
 }
