@@ -46,7 +46,6 @@ class LocationWeatherViewModel(private var repo: LocationWeatherRepoInterface) :
             try {
                 repo.getCurrentLocationResponse(latitude, longitude, units, language)
                     .collect { data ->
-                        Log.d("errMy",data.toString())
                         _postStateFlow.value = LocationWeatherApiState.Success(data)
                     }
 

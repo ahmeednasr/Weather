@@ -24,5 +24,8 @@
     <string name="humidity">humidity</string>
     <string name="map">map</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="add">add</string>
+    <string name="add_location">add Location</string>
+    <string name="search">search</string>
 
 </resources>

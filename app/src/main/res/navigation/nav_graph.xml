@@ -17,9 +17,16 @@
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="com.example.weather.FavoriteFragment"
+        android:name="com.example.weather.favorite.favorite_view.FavoriteFragment"
         android:label="fragment_favorite"
-        tools:layout="@layout/fragment_favorite" />
+        tools:layout="@layout/fragment_favorite" >
+        <action
+            android:id="@+id/action_favoriteFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_favoriteFragment_to_myMapFragment"
+            app:destination="@id/myMapFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.weather.SettingsFragment"
@@ -35,4 +42,9 @@
         android:name="com.example.weather.map.MyMapFragment"
         android:label="fragment_my_map"
         tools:layout="@layout/fragment_my_map" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.weather.search.search_view.SearchView"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
 </navigation>

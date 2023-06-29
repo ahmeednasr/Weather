@@ -22,4 +22,7 @@
     <string name="wind">Wind</string>
     <string name="humidity">humidity</string>
     <string name="map" />
+    <string name="add">add</string>
+    <string name="add_location">add Location</string>
+    <string name="search">search</string>
 </resources>

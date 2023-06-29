@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 class MyCompanion {
     companion object {
+        const val API_Key="a117466978c46167246dc8d6a700cce6"
         var currentCity=""
         fun getIconLink(id: String): String {
             return "https://openweathermap.org/img/wn/$id@2x.png"
@@ -16,16 +17,15 @@ class MyCompanion {
 
         const val LATITUDE="LAT"
         const val LONGITUDE="LONG"
+
        enum class LocationType(val value: String) {
             GPS("gps"),
             MAP("map")
         }
-
         enum class UnitsType(val value: String) {
             METRIC("metric"),
             IMPERIAL("imperial")
         }
-
         enum class LanguageType(val value: String) {
             ARABIC("ar"),
             ENGLISH("en")
