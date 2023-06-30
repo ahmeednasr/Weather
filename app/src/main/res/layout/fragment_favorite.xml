@@ -5,8 +5,18 @@
     android:id="@+id/favoriteFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".favorite.favorite_view.FavoriteFragment">
+    tools:context=".favorite.favorite_view.FavoriteView">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/fav_cities_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:itemCount="10"
+        tools:listitem="@layout/fav_city_item" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_floating"

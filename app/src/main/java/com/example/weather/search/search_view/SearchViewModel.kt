@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weather.search.search_repo.SearchApiState
 import com.example.weather.search.search_repo.SearchRepoInterface
+import com.example.weather.search.search_repo.search_result_pojo.CityPojo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -14,7 +15,7 @@ class SearchViewModel(private var repo: SearchRepoInterface) : ViewModel() {
     val responseSearchFlow: StateFlow<SearchApiState>
         get() = _postSearchStateFlow
 
-    fun getSearchData(city: String) {
+    private fun getSearchData(city: String) {
         _postSearchStateFlow.value = SearchApiState.Loading
         viewModelScope.launch {
             try {
@@ -27,6 +28,18 @@ class SearchViewModel(private var repo: SearchRepoInterface) : ViewModel() {
             }
         }
 
+    }
+
+    fun search(myQuery: String) {
+        viewModelScope.launch {
+            getSearchData(myQuery)
+        }
+    }
+
+    fun saveCity(city: CityPojo) {
+        viewModelScope.launch {
+            repo.insertCity(city)
+        }
     }
 
     override fun onCleared() {

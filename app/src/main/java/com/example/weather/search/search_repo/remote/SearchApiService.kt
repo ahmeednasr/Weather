@@ -8,8 +8,8 @@ import retrofit2.http.Query
 interface SearchApiService {
     @GET("direct")
     suspend fun getSearchResult(
-        @Query("q") query:String,
-        @Query("limit") limit:Int=10,
-        @Query("appid") apiKey:String=MyCompanion.API_Key
+        @Query("q") query: String,
+        @Query("limit") limit: Int = 10,
+        @Query("appid") apiKey: String = MyCompanion.API_Key
     ): SearchResponse
 }

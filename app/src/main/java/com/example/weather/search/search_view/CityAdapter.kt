@@ -1,6 +1,7 @@
 package com.example.weather.search.search_view
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -10,7 +11,7 @@ import com.example.weather.databinding.SearchCityItemBinding
 import com.example.weather.search.SaveCityListener
 import com.example.weather.search.search_repo.search_result_pojo.CityPojo
 
-class CityAdapter(val listener: SaveCityListener) :
+class CityAdapter(private val listener: SaveCityListener) :
     ListAdapter<CityPojo, CityAdapter.ViewHolder>(CityAdapter.CityDiffUtil()) {
     private lateinit var binding: SearchCityItemBinding
 
@@ -25,6 +26,7 @@ class CityAdapter(val listener: SaveCityListener) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var currentCity: CityPojo = getItem(position)
+        Log.i("Search", "meee" + currentCity.toString())
         binding.cityName.text = currentCity.name
         binding.cityDiscription.text = "${currentCity.country},${currentCity.state}"
         binding.addFav.setOnClickListener {

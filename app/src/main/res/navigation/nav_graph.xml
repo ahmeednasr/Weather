@@ -16,18 +16,6 @@
             android:defaultValue="0.12" />
     </fragment>
     <fragment
-        android:id="@+id/favoriteFragment"
-        android:name="com.example.weather.favorite.favorite_view.FavoriteFragment"
-        android:label="fragment_favorite"
-        tools:layout="@layout/fragment_favorite" >
-        <action
-            android:id="@+id/action_favoriteFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
-        <action
-            android:id="@+id/action_favoriteFragment_to_myMapFragment"
-            app:destination="@id/myMapFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.weather.SettingsFragment"
         android:label="fragment_settings"
@@ -47,4 +35,16 @@
         android:name="com.example.weather.search.search_view.SearchView"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.example.weather.favorite.favorite_view.FavoriteView"
+        android:label="fragment_favorite"
+        tools:layout="@layout/fragment_favorite" >
+        <action
+            android:id="@+id/action_favoriteView_to_myMapFragment"
+            app:destination="@id/myMapFragment" />
+        <action
+            android:id="@+id/action_favoriteView_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
 </navigation>

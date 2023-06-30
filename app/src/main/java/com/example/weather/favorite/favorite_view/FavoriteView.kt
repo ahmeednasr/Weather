@@ -7,16 +7,29 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.weather.R
 import com.example.weather.databinding.FragmentFavoriteBinding
-import com.example.weather.databinding.FragmentHomeBinding
+import com.example.weather.favorite.favorite_repo.FavoriteRepo
+import com.example.weather.localSource.ConcretLocalSource
+import com.example.weather.search.search_repo.search_result_pojo.CityPojo
+import com.example.weather.search.search_view.CityAdapter
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 
-class FavoriteFragment : Fragment() {
+class FavoriteView : Fragment(), OnCityClickListener {
     private lateinit var binding: FragmentFavoriteBinding
     lateinit var controller: NavController
+    lateinit var viewModel: FavoriteViewModel
+    lateinit var factory: FavoriteViewModelFactory
+    lateinit var favAdapter: FavoriteAdapter
+
     private val rotateOpen: Animation by lazy {
         AnimationUtils.loadAnimation(
             context,
@@ -42,6 +55,7 @@ class FavoriteFragment : Fragment() {
         )
     }
     private var clicked: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -61,6 +75,23 @@ class FavoriteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         controller = Navigation.findNavController(view)
+        factory = FavoriteViewModelFactory(
+            FavoriteRepo.getInstance(
+                ConcretLocalSource.getInstance(requireContext())
+            )
+        )
+
+        viewModel = ViewModelProvider(this, factory)[FavoriteViewModel::class.java]
+        favAdapter = FavoriteAdapter(this)
+        binding.favCitiesRecyclerView.adapter = favAdapter
+        binding.favCitiesRecyclerView.layoutManager =
+            LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        viewModel.getCities()
+        lifecycleScope.launch {
+            viewModel.citiesList.collect {
+                favAdapter.submitList(it)
+            }
+        }
         binding.addFloating.setOnClickListener {
             onAddClicked()
         }
@@ -68,8 +99,17 @@ class FavoriteFragment : Fragment() {
 
         }
         binding.searchFloating.setOnClickListener {
-            controller.navigate((FavoriteFragmentDirections.actionFavoriteFragmentToSearchFragment()))
+            controller.navigate((FavoriteViewDirections.actionFavoriteViewToSearchFragment()))
         }
+    }
+
+    override fun removeCity(city: CityPojo) {
+
+        viewModel.deleteCity(city)
+    }
+
+    override fun viewCity(city: CityPojo) {
+        //navCtrl
     }
 
     private fun onAddClicked() {
@@ -99,5 +139,6 @@ class FavoriteFragment : Fragment() {
             binding.searchFloating.visibility = View.INVISIBLE
         }
     }
+
 
 }
