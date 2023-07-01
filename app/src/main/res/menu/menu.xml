@@ -3,10 +3,10 @@
     <group android:checkableBehavior="single">
 
 
-    <item
-        android:id="@+id/homeFragment"
-        android:title="@string/home" />
-    <item
+        <item
+            android:id="@+id/homeFragment"
+            android:title="@string/home" />
+        <item
         android:id="@+id/weatherAlertsFragment"
         android:title="@string/weather_alerts" />
     <item

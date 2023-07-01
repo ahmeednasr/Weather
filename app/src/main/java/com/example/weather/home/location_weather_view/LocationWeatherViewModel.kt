@@ -39,12 +39,12 @@ class LocationWeatherViewModel(private var repo: LocationWeatherRepoInterface) :
         }
     }
     fun getCurrentLocationResponse(
-        latitude: Double, longitude: Double, units: String, language: String
+        latitude: Double, longitude: Double,language: String
     ) {
         _postStateFlow.value=LocationWeatherApiState.Loading
         viewModelScope.launch {
             try {
-                repo.getCurrentLocationResponse(latitude, longitude, units, language)
+                repo.getCurrentLocationResponse(latitude, longitude, language)
                     .collect { data ->
                         _postStateFlow.value = LocationWeatherApiState.Success(data)
                     }

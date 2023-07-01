@@ -1,45 +1,27 @@
 package com.example.weather.main_activty
 
-import android.app.Dialog
 import android.content.Context
-import android.content.DialogInterface
+import android.content.ContextWrapper
 import android.content.SharedPreferences
 import android.graphics.drawable.ColorDrawable
-import android.net.ConnectivityManager
-import android.net.Network
-import android.net.NetworkCapabilities
-import android.net.NetworkRequest
-import android.os.Build
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
-import android.util.Log
-import android.view.*
-import android.widget.RadioGroup
-import android.widget.Toast
-import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AlertDialog
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatImageButton
-import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.example.weather.R
-import com.example.weather.home.location_weather_repo.LocationWeatherApiState
-import com.example.weather.home.location_weather_view.LocationWeatherFactory
-import com.example.weather.home.location_weather_view.LocationWeatherViewModel
+import com.example.weather.companion.ContextUtils
+import com.example.weather.companion.MyCompanion
 import com.google.android.material.navigation.NavigationView
-import kotlinx.coroutines.launch
-
+import org.intellij.lang.annotations.Language
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     lateinit var navController: NavController
@@ -47,12 +29,33 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mainFactory: MainFactory
     lateinit var drawerLayout: DrawerLayout
     lateinit var mainViewModel: MainViewModel
-    private lateinit var sharedPreferences: SharedPreferences
-
+    override fun attachBaseContext(newBase: Context) {
+        val localeUpdatedContext: ContextWrapper = ContextUtils.updateLocale(newBase, Locale.getDefault())
+        super.attachBaseContext(localeUpdatedContext)
+    }
    // @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+//       val sharedPreferences = getSharedPreferences("PREFS", 0)
+//       val language = sharedPreferences.getString(MyCompanion.LANGUAGE_KEY, "")
+//
+//// Update the default locale of the app context
+//       val locale = Locale(language.toString())
+//       Locale.setDefault(locale)
+//       val resources = resources
+//       val config = resources.configuration
+//       config.setLocale(locale)
+//       resources.updateConfiguration(config, resources.displayMetrics)
+//       val context = ContextWrapper(this)
+//       val activityLocale = Locale(language)
+//       val activityConfig = resources.configuration
+//       activityConfig.setLocale(activityLocale)
+//       context.resources.updateConfiguration(
+//           activityConfig,
+//           resources.displayMetrics
+//       )
+
         drawerLayout = findViewById(R.id.drawer_layout)
         navigationView = findViewById(R.id.nav_view)
         var actionBar = supportActionBar

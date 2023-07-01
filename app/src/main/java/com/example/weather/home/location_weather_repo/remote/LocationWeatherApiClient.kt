@@ -32,10 +32,9 @@ class LocationWeatherApiClient : LocationWeatherRemoteSource {
     override suspend fun getCurrentLocationResponse(
         latitude: Double,
         longitude: Double,
-        units: String,
         language: String,
     ): LocationWeatherResponse {
-        val response=retrofit.getCurrentLocationWeather(latitude, longitude, units, language)
+        val response=retrofit.getCurrentLocationWeather(latitude, longitude, language)
         Log.d("errMy",response.toString())
         return response
     }

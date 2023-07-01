@@ -25,11 +25,10 @@ class LocationWeatherRepo private constructor(var remoteSource: LocationWeatherR
     override suspend fun getCurrentLocationResponse(
         latitude: Double,
         longitude: Double,
-        units: String,
         language: String,
     ): Flow<LocationWeatherResponse> {
         var res =
-            remoteSource.getCurrentLocationResponse(latitude, longitude, units, language)
+            remoteSource.getCurrentLocationResponse(latitude, longitude, language)
         res.hourly=res.hourly.subList(0,25)
         res.daily=res.daily.subList(1,7)
         return flow {

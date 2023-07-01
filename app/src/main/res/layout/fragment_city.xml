@@ -101,7 +101,7 @@
                             android:id="@+id/temp_measur"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/tempunit"
+                            android:text="@string/tempunit_celsius"
                             android:textColor="#FFFFFF"
                             android:textSize="20sp"
                             app:layout_constraintStart_toEndOf="@+id/temp_value"

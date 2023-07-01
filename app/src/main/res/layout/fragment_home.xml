@@ -48,12 +48,43 @@
                         app:cardCornerRadius="20dp"
                         app:cardElevation="20dp"
                         app:cardMaxElevation="10dp">
-
                     </androidx.cardview.widget.CardView>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:id="@+id/temperature_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent">
+
+                            <TextView
+                                android:id="@+id/temp_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="start"
+                                android:layout_marginStart="8dp"
+                                android:alpha=".99"
+                                android:elevation="30dp"
+                                android:text="26"
+                                android:textColor="@color/white"
+                                android:textSize="48sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/temp_measur"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="end"
+                                android:text="@string/tempunit_celsius"
+                                android:textColor="#FFFFFF"
+                                android:textSize="20sp" />
+
+                        </LinearLayout>
 
                         <ImageView
                             android:id="@+id/current_icon"
@@ -92,30 +123,6 @@
                             app:layout_constraintEnd_toEndOf="@+id/date"
                             app:layout_constraintStart_toStartOf="@+id/date"
                             app:layout_constraintTop_toBottomOf="@+id/date" />
-
-                        <TextView
-                            android:id="@+id/temp_value"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:alpha=".99"
-                            android:elevation="30dp"
-                            android:text=""
-                            android:textColor="@color/white"
-                            android:textSize="48sp"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent" />
-
-                        <TextView
-                            android:id="@+id/temp_measur"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/tempunit"
-                            android:textColor="#FFFFFF"
-                            android:textSize="20sp"
-                            app:layout_constraintStart_toEndOf="@+id/temp_value"
-                            app:layout_constraintTop_toTopOf="@+id/temp_value" />
 
                         <TextView
                             android:id="@+id/city"
@@ -180,6 +187,61 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
 
+                            <LinearLayout
+                                android:id="@+id/windlinearLayout"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                app:layout_constraintEnd_toEndOf="@+id/wind_img"
+                                app:layout_constraintStart_toStartOf="@+id/wind_img"
+                                app:layout_constraintTop_toBottomOf="@+id/wind_img">
+
+                                <TextView
+                                    android:id="@+id/wind_speed_value"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="value"
+                                    android:textColor="#FFFFFF"
+                                    app:layout_constraintEnd_toEndOf="@+id/wind_img"
+                                    app:layout_constraintStart_toStartOf="@+id/wind_img"
+                                    app:layout_constraintTop_toBottomOf="@+id/wind_img" />
+
+                                <TextView
+                                    android:id="@+id/wind_speed"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/m_s"
+                                    android:textColor="#FFFFFF"
+                                    app:layout_constraintEnd_toEndOf="@+id/wind_img"
+                                    app:layout_constraintStart_toStartOf="@+id/wind_img"
+                                    app:layout_constraintTop_toBottomOf="@+id/wind_img" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/visibilitylinearLayout"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                app:layout_constraintEnd_toEndOf="@+id/visibilty_img"
+                                app:layout_constraintStart_toStartOf="@+id/visibilty_img"
+                                app:layout_constraintTop_toBottomOf="@+id/visibilty_img">
+
+                                <TextView
+                                    android:id="@+id/visibilty_value"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="value"
+                                    android:textColor="#FFFFFF" />
+
+                                <TextView
+                                    android:id="@+id/metr"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/m"
+                                    android:textColor="#FFFFFF" />
+                            </LinearLayout>
+
                             <ImageView
                                 android:id="@+id/visibilty_img"
                                 android:layout_width="35dp"
@@ -189,24 +251,14 @@
                                 app:srcCompat="@drawable/ic_round_visibility_24" />
 
                             <TextView
-                                android:id="@+id/visibilty_value"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="value"
-                                android:textColor="#FFFFFF"
-                                app:layout_constraintEnd_toEndOf="@+id/visibilty_img"
-                                app:layout_constraintStart_toStartOf="@+id/visibilty_img"
-                                app:layout_constraintTop_toBottomOf="@+id/visibilty_img" />
-
-                            <TextView
                                 android:id="@+id/visibilty"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Visibility"
+                                android:text="@string/visibility"
                                 android:textColor="#FFFFFF"
                                 app:layout_constraintEnd_toEndOf="@+id/visibilty_img"
                                 app:layout_constraintStart_toStartOf="@+id/visibilty_img"
-                                app:layout_constraintTop_toBottomOf="@+id/visibilty_value" />
+                                app:layout_constraintTop_toBottomOf="@+id/visibilitylinearLayout" />
 
                             <ImageView
                                 android:id="@+id/ultr_img"
@@ -231,7 +283,7 @@
                                 android:id="@+id/ultra"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Ultra Vilot"
+                                android:text="UV"
                                 android:textColor="#FFFFFF"
                                 app:layout_constraintEnd_toEndOf="@+id/ultr_img"
                                 app:layout_constraintStart_toStartOf="@+id/ultr_img"
@@ -242,30 +294,49 @@
                                 android:layout_width="35dp"
                                 android:layout_height="35dp"
                                 android:layout_marginTop="8dp"
-                                app:layout_constraintEnd_toEndOf="@+id/pressure_img"
-                                app:layout_constraintStart_toStartOf="@+id/pressure_img"
+                                app:layout_constraintEnd_toEndOf="@+id/pressure"
+                                app:layout_constraintStart_toStartOf="@+id/pressure"
                                 app:layout_constraintTop_toBottomOf="@+id/pressure"
                                 app:srcCompat="@drawable/ic_round_wb_cloudy_24" />
 
-                            <TextView
-                                android:id="@+id/cloud_value"
+
+                            <LinearLayout
+                                android:id="@+id/cloudlinearLayout"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="value"
-                                android:textColor="#FFFFFF"
+                                android:orientation="horizontal"
                                 app:layout_constraintEnd_toEndOf="@+id/cloud_img"
                                 app:layout_constraintStart_toStartOf="@+id/cloud_img"
-                                app:layout_constraintTop_toBottomOf="@+id/cloud_img" />
+                                app:layout_constraintTop_toBottomOf="@+id/cloud_img">
+
+                                <TextView
+                                    android:id="@+id/cloud_value"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="value"
+                                    android:textColor="#FFFFFF"
+                                    app:layout_constraintEnd_toEndOf="@+id/cloud_img"
+                                    app:layout_constraintStart_toStartOf="@+id/cloud_img"
+                                    app:layout_constraintTop_toBottomOf="@+id/cloud_img" />
+
+                                <TextView
+                                    android:id="@+id/cloud_unit"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="%"
+                                    android:textColor="#FFFFFF" />
+                            </LinearLayout>
 
                             <TextView
                                 android:id="@+id/Cloud"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Cloud"
+                                android:text="@string/cloud"
                                 android:textColor="#FFFFFF"
-                                app:layout_constraintEnd_toEndOf="@+id/cloud_value"
-                                app:layout_constraintStart_toStartOf="@+id/cloud_value"
-                                app:layout_constraintTop_toBottomOf="@+id/cloud_value" />
+                                app:layout_constraintEnd_toEndOf="@+id/cloudlinearLayout"
+                                app:layout_constraintStart_toStartOf="@+id/cloudlinearLayout"
+                                app:layout_constraintTop_toBottomOf="@+id/cloudlinearLayout" />
 
                             <ImageView
                                 android:id="@+id/humidity_img"
@@ -276,15 +347,32 @@
                                 app:layout_constraintTop_toTopOf="@+id/pressure_img"
                                 app:srcCompat="@drawable/ic_round_water_drop_24" />
 
-                            <TextView
-                                android:id="@+id/humidity_value"
+                            <LinearLayout
+                                android:id="@+id/humiditylinearLayout"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="value"
-                                android:textColor="#FFFFFF"
+                                android:orientation="horizontal"
                                 app:layout_constraintEnd_toEndOf="@+id/humidity_img"
                                 app:layout_constraintStart_toStartOf="@+id/humidity_img"
-                                app:layout_constraintTop_toBottomOf="@+id/humidity_img" />
+                                app:layout_constraintTop_toBottomOf="@+id/humidity_img">
+
+                                <TextView
+                                    android:id="@+id/humidity_value"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="value"
+                                    android:textColor="#FFFFFF"
+                                    app:layout_constraintStart_toStartOf="@+id/humidity_img"
+                                    tools:layout_editor_absoluteY="51dp" />
+
+                                <TextView
+                                    android:id="@+id/humidity_unit"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="%"
+                                    android:textColor="#FFFFFF" />
+                            </LinearLayout>
 
                             <TextView
                                 android:id="@+id/humidity"
@@ -294,7 +382,7 @@
                                 android:textColor="#FFFFFF"
                                 app:layout_constraintEnd_toEndOf="@+id/humidity_img"
                                 app:layout_constraintStart_toStartOf="@+id/humidity_img"
-                                app:layout_constraintTop_toBottomOf="@+id/humidity_value" />
+                                app:layout_constraintTop_toBottomOf="@+id/humiditylinearLayout" />
 
                             <ImageView
                                 android:id="@+id/wind_img"
@@ -306,16 +394,6 @@
                                 app:srcCompat="@drawable/ic_round_wind_power_24" />
 
                             <TextView
-                                android:id="@+id/wind_speed_value"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="value"
-                                android:textColor="#FFFFFF"
-                                app:layout_constraintEnd_toEndOf="@+id/wind_img"
-                                app:layout_constraintStart_toStartOf="@+id/wind_img"
-                                app:layout_constraintTop_toBottomOf="@+id/wind_img" />
-
-                            <TextView
                                 android:id="@+id/wind"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -323,7 +401,7 @@
                                 android:textColor="#FFFFFF"
                                 app:layout_constraintEnd_toEndOf="@+id/wind_img"
                                 app:layout_constraintStart_toStartOf="@+id/wind_img"
-                                app:layout_constraintTop_toBottomOf="@+id/wind_speed_value" />
+                                app:layout_constraintTop_toBottomOf="@+id/windlinearLayout" />
 
                             <ImageView
                                 android:id="@+id/pressure_img"
@@ -335,15 +413,30 @@
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:srcCompat="@drawable/ic_round_multiline_chart_24" />
 
-                            <TextView
-                                android:id="@+id/pressure_value"
+                            <LinearLayout
+                                android:id="@+id/pressurelinearLayout"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="value"
-                                android:textColor="#FFFFFF"
+                                android:orientation="horizontal"
                                 app:layout_constraintEnd_toEndOf="@+id/pressure_img"
                                 app:layout_constraintStart_toStartOf="@+id/pressure_img"
-                                app:layout_constraintTop_toBottomOf="@+id/pressure_img" />
+                                app:layout_constraintTop_toBottomOf="@+id/pressure_img">
+
+                                <TextView
+                                    android:id="@+id/pressure_value"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="value"
+                                    android:textColor="#FFFFFF" />
+
+                                <TextView
+                                    android:id="@+id/pressure_unit"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="@string/hpa"
+                                    android:textColor="#FFFFFF" />
+                            </LinearLayout>
 
                             <TextView
                                 android:id="@+id/pressure"
@@ -353,7 +446,7 @@
                                 android:textColor="#FFFFFF"
                                 app:layout_constraintEnd_toEndOf="@+id/pressure_img"
                                 app:layout_constraintStart_toStartOf="@+id/pressure_img"
-                                app:layout_constraintTop_toBottomOf="@+id/pressure_value" />
+                                app:layout_constraintTop_toBottomOf="@+id/pressurelinearLayout" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </FrameLayout>
 
@@ -365,7 +458,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:itemCount="7"
+                        tools:itemCount="1"
                         tools:listitem="@layout/hourly_item" />
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -374,7 +467,7 @@
                         android:layout_height="match_parent"
                         android:nestedScrollingEnabled="false"
                         app:layout_constraintTop_toBottomOf="@id/hourly_recycler"
-                        tools:itemCount="7"
+                        tools:itemCount="1"
                         tools:listitem="@layout/daily_item" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

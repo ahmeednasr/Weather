@@ -96,10 +96,10 @@ class FavoriteView : Fragment(), OnCityClickListener {
             onAddClicked()
         }
         binding.locationFloating.setOnClickListener {
-
+            controller.navigate(FavoriteViewDirections.actionFavoriteViewToMyMapFragment())
         }
         binding.searchFloating.setOnClickListener {
-            controller.navigate((FavoriteViewDirections.actionFavoriteViewToSearchFragment()))
+            controller.navigate(FavoriteViewDirections.actionFavoriteViewToSearchFragment())
         }
     }
 

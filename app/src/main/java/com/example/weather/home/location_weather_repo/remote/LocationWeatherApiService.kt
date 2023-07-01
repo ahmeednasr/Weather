@@ -10,7 +10,6 @@ interface LocationWeatherApiService {
     suspend fun getCurrentLocationWeather(
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double,
-        @Query("units")units:String,
         @Query("lang") language: String,
         @Query("exclude") exclude: String="minutely",
         @Query("appid") apiKey: String =MyCompanion.API_Key

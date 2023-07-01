@@ -90,7 +90,11 @@ class LocationWeatherView : Fragment() {
         homeViewModel.getTime()
         binding.refresh.setOnRefreshListener {
             //refreshDate()
-            homeViewModel.getCurrentLocationResponse(lat, long, "metric", "en")
+            homeViewModel.getCurrentLocationResponse(
+                lat,
+                long,
+                Locale.getDefault().language
+            )
             Toast.makeText(requireContext(), "refresh", Toast.LENGTH_SHORT).show()
         }
         lifecycleScope.launch {
@@ -171,8 +175,7 @@ class LocationWeatherView : Fragment() {
                         homeViewModel.getCurrentLocationResponse(
                             lat,
                             long,
-                            "metric",
-                            "ar",
+                            Locale.getDefault().language
                         )
                     }
                 }
@@ -194,8 +197,7 @@ class LocationWeatherView : Fragment() {
             homeViewModel.getCurrentLocationResponse(
                 lat,
                 long,
-                "metric",
-                "ar",
+                Locale.getDefault().language
             )
             Log.i("errT", "2 $token")
         }

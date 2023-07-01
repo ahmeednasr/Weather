@@ -8,9 +8,12 @@
     <string name="settings">settings</string>
     <string name="City">City</string>
     <string name="more">more</string>
-    <string name="temperature">00°C</string>
+    <string name="temperature">temperature</string>
     <string name="time">12:00</string>
-    <string name="tempunit">°C</string>
+    <string name="tempunit_celsius">°C</string>
+    <string name="tempunit_fahrenheit">°F</string>
+    <string name="tempunit_kelvin">°K</string>
+
     <string name="Today">Today</string>
     <string name="Tomorrow">Tomorrow</string>
     <string name="language">language</string>
@@ -27,5 +30,14 @@
     <string name="add">add</string>
     <string name="add_location">add Location</string>
     <string name="search">search</string>
-
+    <string name="location">location</string>
+    <string name="cloud">Cloud</string>
+    <string name="visibility">Visibility</string>
+    <string name="arabic">arabic</string>
+    <string name="english">english</string>
+    <string name="speed">speed</string>
+    <string name="m_s">m/s</string>
+    <string name="mil_h">mil/h</string>
+    <string name="m">m</string>
+    <string name="hpa">hpa</string>
 </resources>

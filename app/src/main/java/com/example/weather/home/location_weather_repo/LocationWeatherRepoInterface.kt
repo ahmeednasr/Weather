@@ -7,7 +7,6 @@ interface LocationWeatherRepoInterface {
     suspend fun getCurrentLocationResponse(
         latitude: Double,
         longitude: Double,
-        units: String,
         language: String,
     ): Flow<LocationWeatherResponse>
 }

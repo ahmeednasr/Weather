@@ -4,17 +4,14 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
-import androidx.lifecycle.lifecycleScope
 import com.example.weather.R
 import com.example.weather.map.MapActivity
 import com.example.weather.companion.MyCompanion
-import com.example.weather.companion.MyCompanion.Companion
-import com.example.weather.companion.MyCompanion.Companion.languageState
-import com.example.weather.companion.MyCompanion.Companion.locationState
-import com.example.weather.companion.MyCompanion.Companion.setLanguageType
-import com.example.weather.companion.MyCompanion.Companion.setUnitsType
+//import com.example.weather.companion.MyCompanion.Companion.languageState
+//import com.example.weather.companion.MyCompanion.Companion.locationState
+//import com.example.weather.companion.MyCompanion.Companion.setLanguageType
+//import com.example.weather.companion.MyCompanion.Companion.setUnitsType
 import com.example.weather.main_activty.MainActivity
-import kotlinx.coroutines.launch
 
 class SetSetting : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +33,7 @@ class SetSetting : AppCompatActivity() {
         gpsButton.isChecked = true
         metricButton.isChecked = true
         arabicButton.isChecked = true
+
 // Set a listener for the RadioGroup views
         locationGroup.setOnCheckedChangeListener { radioGroup, checkedId ->
             when (checkedId) {
@@ -55,11 +53,11 @@ class SetSetting : AppCompatActivity() {
         unitsGroup.setOnCheckedChangeListener { radioGroup, checkedId ->
             when (checkedId) {
                 R.id.metric -> {
-                    setUnitsType(Companion.UnitsType.METRIC)
+                    //setUnitsType(Companion.UnitsType.METRIC)
                     // Handle metric button selected
                 }
                 R.id.imperial -> {
-                    setUnitsType(Companion.UnitsType.IMPERIAL)
+                    //setUnitsType(Companion.UnitsType.IMPERIAL)
                     // Handle imperial button selected
                 }
             }
@@ -68,11 +66,11 @@ class SetSetting : AppCompatActivity() {
         languageGroup.setOnCheckedChangeListener { radioGroup, checkedId ->
             when (checkedId) {
                 R.id.arabic -> {
-                    setLanguageType(Companion.LanguageType.ARABIC)
+                 //   setLanguageType(Companion.LanguageType.ARABIC)
                     // Handle arabic button selected
                 }
                 R.id.english -> {
-                    setLanguageType(Companion.LanguageType.ENGLISH)
+                   // setLanguageType(Companion.LanguageType.ENGLISH)
                     // Handle english button selected
                 }
             }
@@ -95,15 +93,15 @@ class SetSetting : AppCompatActivity() {
 //            editor.putString("location_type", locationType.value.name)
 //            editor.apply()
         }
-        lifecycleScope.launch {
-            locationState.collect {
-                println(it.value)
-            }
-        }
-        lifecycleScope.launch {
-            languageState.collect {
-                println(it.value)
-            }
-        }
+//        lifecycleScope.launch {
+//            locationState.collect {
+//                println(it.value)
+//            }
+//        }
+//        lifecycleScope.launch {
+//            languageState.collect {
+//                println(it.value)
+//            }
+//        }
     }
 }
