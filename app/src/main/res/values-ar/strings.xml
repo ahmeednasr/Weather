@@ -4,7 +4,7 @@
     <string name="app_name">Weather</string>
     <string name="Welcome">اهلا بكم</string>
     <string name="hello">hello</string>
-    <string name="City" >المدينه</string>
+    <string name="City">المدينه</string>
     <string name="weather_alerts">التنبيهات</string>
     <string name="favorite">المفضله</string>
     <string name="settings">الاعدادات</string>
@@ -35,8 +35,8 @@
     <string name="arabic">العربيه</string>
     <string name="english">الانجليزيه</string>
     <string name="speed">السرعه</string>
-    <string name="m_s">م/ث</string>
-    <string name="mil_h">ميل/ساعه</string>
+    <string name="m_s"> م/ث </string>
+    <string name="mil_h">ميل/س</string>
     <string name="m">م</string>
     <string name="hpa">هـ.ب</string>
 </resources>

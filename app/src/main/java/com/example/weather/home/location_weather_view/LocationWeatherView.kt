@@ -1,7 +1,6 @@
 package com.example.weather.home.location_weather_view
 
 import android.annotation.SuppressLint
-import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -28,13 +27,14 @@ import com.example.weather.databinding.FragmentHomeBinding
 import com.example.weather.home.location_weather_repo.LocationWeatherApiState
 import com.example.weather.home.location_weather_repo.LocationWeatherRepo
 import com.example.weather.home.location_weather_repo.remote.LocationWeatherApiClient
+
 import com.google.android.gms.location.*
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.combine
+
 import java.text.SimpleDateFormat
 import java.util.*
+import com.example.weather.R
 
 
 class LocationWeatherView : Fragment() {
@@ -47,9 +47,11 @@ class LocationWeatherView : Fragment() {
     lateinit var dailyAdapter: DailyAdapter
     lateinit var myContext: Context
     lateinit var sharedPreferences: SharedPreferences
-    lateinit var token: String
+    lateinit var locationToken: String
     var lat: Double = 21.38
     var long: Double = 39.85
+    lateinit var speedUnit: String
+    lateinit var tempUnit: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,15 +71,37 @@ class LocationWeatherView : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.i("ONMYCREATE", "ONMYCREATE")
         sharedPreferences = myContext.getSharedPreferences("PREFS", 0)
-        token = sharedPreferences.getString(MyCompanion.LOCATION_KEY, "").toString()
+        val editor = sharedPreferences.edit()
+        locationToken = sharedPreferences.getString(MyCompanion.LOCATION_KEY, "").toString()
+        val speedUnitToken = sharedPreferences.getString(MyCompanion.SPEED_KEY, "")
+        if (speedUnitToken != null) {
+            speedUnit = when (speedUnitToken) {
+                MyCompanion.METER_PER_SECOND -> speedUnitToken
+                MyCompanion.MILES_PER_HOUR -> speedUnitToken
+                else -> MyCompanion.METER_PER_SECOND
+            }
+            editor.putString(MyCompanion.SPEED_KEY, speedUnit)
 
-        hourlyAdapter = HourlyAdapter(requireContext())
+        }
+        val tempUnitToken = sharedPreferences.getString(MyCompanion.TEMP_KEY, "")
+        if (tempUnitToken != null) {
+            tempUnit = when (tempUnitToken) {
+                MyCompanion.C -> tempUnitToken
+                MyCompanion.F -> tempUnitToken
+                else -> MyCompanion.K
+            }
+            editor.putString(MyCompanion.TEMP_KEY, tempUnit)
+        }
+        editor.apply()
+
+        hourlyAdapter = HourlyAdapter(requireContext(), tempUnit)
         binding.hourlyRecycler.layoutManager =
             LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         binding.hourlyRecycler.adapter = hourlyAdapter
 
-        dailyAdapter = DailyAdapter(requireContext())
+        dailyAdapter = DailyAdapter(requireContext(), tempUnit)
         binding.dailyRecycler.layoutManager =
             LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         binding.dailyRecycler.isNestedScrollingEnabled
@@ -108,10 +132,10 @@ class LocationWeatherView : Fragment() {
                         binding.loading.visibility = View.GONE
                         binding.refresh.isRefreshing = false
 
-                        var current = result.data.current
+                        val current = result.data.current
 
                         geocoder = Geocoder(myContext, Locale.getDefault())
-                        var addressList =
+                        val addressList =
                             geocoder.getFromLocation(result.data.lat, result.data.lon, 1)
                         Log.i("err", "address name: $addressList")
                         if (addressList != null && addressList.isNotEmpty()) {
@@ -124,7 +148,14 @@ class LocationWeatherView : Fragment() {
                             }
                         }
                         getTime()
-                        binding.tempValue.text = current.temp.toInt().toString()
+
+                        binding.tempValue.text = MyCompanion.getTemp(tempUnit, current.temp)
+                        binding.tempMeasur.text = when (tempUnit) {
+                            MyCompanion.C -> context?.getString(R.string.tempunit_celsius)
+                            MyCompanion.F -> context?.getString(R.string.tempunit_fahrenheit)
+                            MyCompanion.K -> context?.getString(R.string.tempunit_kelvin)
+                            else -> null // Handle any other cases if necessary
+                        }
                         binding.description.text = current.weather[0].description
                         Picasso.get()
                             .load(MyCompanion.getIconLink(current.weather[0].icon))
@@ -134,8 +165,13 @@ class LocationWeatherView : Fragment() {
 
                         binding.pressureValue.text = current.pressure.toString()
                         binding.humidityValue.text = current.humidity.toString()
-                        binding.windSpeedValue.text = current.wind_speed.toString()
-                        var cloud = "${current.clouds}"
+                        binding.windSpeedValue.text =
+                            MyCompanion.getSpeed(speedUnit, current.wind_speed)
+                        binding.windSpeed.text = when (speedUnit) {
+                            MyCompanion.MILES_PER_HOUR -> context?.getString(R.string.mil_h)
+                            else -> context?.getString(R.string.m_s)
+                        }
+                        val cloud = "${current.clouds}"
                         binding.cloudValue.text = cloud
                         binding.ultraValue.text = current.uvi.toString()
                         binding.visibiltyValue.text = current.visibility.toString()
@@ -186,12 +222,10 @@ class LocationWeatherView : Fragment() {
     override fun onResume() {
         super.onResume()
         //step2 call method to get location
-        Log.i("errT", "1 $token")
-        if (token == MyCompanion.GPS) {
-            Log.i("errT", "3 $token")
+        if (locationToken == MyCompanion.GPS) {
             getLastLocation()
-        } else if (token == MyCompanion.MAP) {
-            token = sharedPreferences.getString(MyCompanion.LOCATION_KEY, "").toString()
+        } else if (locationToken == MyCompanion.MAP) {
+            //token = sharedPreferences.getString(MyCompanion.LOCATION_KEY, "").toString()
             lat = sharedPreferences.getFloat(MyCompanion.LATITUDE, 0.0f).toDouble()
             long = sharedPreferences.getFloat(MyCompanion.LONGITUDE, 0.0f).toDouble()
             homeViewModel.getCurrentLocationResponse(
@@ -199,7 +233,6 @@ class LocationWeatherView : Fragment() {
                 long,
                 Locale.getDefault().language
             )
-            Log.i("errT", "2 $token")
         }
     }
 

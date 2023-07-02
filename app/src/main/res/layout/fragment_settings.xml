@@ -29,6 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/temperature"
+                android:textColor="#FFFFFF"
                 app:layout_constraintStart_toStartOf="@+id/temp_group"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,19 +46,22 @@
                     android:id="@+id/C"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/tempunit_celsius" />
+                    android:text="@string/tempunit_celsius"
+                    android:textColor="#FFFFFF" />
 
                 <RadioButton
                     android:id="@+id/F"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/tempunit_fahrenheit" />
+                    android:text="@string/tempunit_fahrenheit"
+                    android:textColor="#FFFFFF" />
 
                 <RadioButton
                     android:id="@+id/K"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/tempunit_kelvin" />
+                    android:text="@string/tempunit_kelvin"
+                    android:textColor="#FFFFFF" />
             </RadioGroup>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -156,6 +160,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/location"
+                android:textColor="#FFFFFF"
                 app:layout_constraintStart_toStartOf="@+id/location_group"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -171,13 +176,15 @@
                     android:id="@+id/gps"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="gps" />
+                    android:text="gps"
+                    android:textColor="#FFFFFF" />
 
                 <RadioButton
                     android:id="@+id/map"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="map" />
+                    android:text="map"
+                    android:textColor="#FFFFFF" />
             </RadioGroup>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -193,6 +200,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/speed"
+                android:textColor="#FFFFFF"
                 app:layout_constraintStart_toStartOf="@+id/speed_group"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -208,13 +216,15 @@
                     android:id="@+id/meter_s"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/m_s" />
+                    android:text="@string/m_s"
+                    android:textColor="#FFFFFF" />
 
                 <RadioButton
                     android:id="@+id/mile_h"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/mil_h" />
+                    android:text="@string/mil_h"
+                    android:textColor="#FFFFFF" />
             </RadioGroup>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -228,6 +238,7 @@
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:text="@string/language"
+                android:textColor="#FFFFFF"
                 app:layout_constraintStart_toStartOf="@+id/language_group"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -243,27 +254,18 @@
                     android:id="@+id/arabic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/arabic" />
+                    android:text="@string/arabic"
+                    android:textColor="#FFFFFF" />
 
                 <RadioButton
                     android:id="@+id/english"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/english" />
+                    android:text="@string/english"
+                    android:textColor="#FFFFFF" />
             </RadioGroup>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:text="@string/save"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
-        app:layout_constraintHorizontal_bias="0.49"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

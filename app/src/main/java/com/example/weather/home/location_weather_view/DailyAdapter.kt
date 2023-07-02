@@ -18,7 +18,7 @@ import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 import java.util.*
 
-class DailyAdapter(val context: Context) :
+class DailyAdapter(val context: Context, var tempUnit: String) :
     ListAdapter<Daily, DailyAdapter.ViewHolder>(DailyAdapter.DailyDiffUtil()) {
     lateinit var binding: DailyItemBinding
 
@@ -34,8 +34,14 @@ class DailyAdapter(val context: Context) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var currentDay: Daily = getItem(position)
         var icon = currentDay.weather[0].icon
-        val max = currentDay.temp.max.toInt().toString()
-        val min = currentDay.temp.min.toInt().toString()
+        val max = MyCompanion.getTemp(tempUnit, currentDay.temp.max)
+        val min = MyCompanion.getTemp(tempUnit, currentDay.temp.min)
+        binding.dayTempUnit.text = when (tempUnit) {
+            MyCompanion.C -> context.getString(R.string.tempunit_celsius)
+            MyCompanion.F -> context.getString(R.string.tempunit_fahrenheit)
+            MyCompanion.K -> context.getString(R.string.tempunit_kelvin)
+            else -> null // Handle any other cases if necessary
+        }
 
         val date = Date(currentDay.dt * 1000L)
         val calendar = Calendar.getInstance()
@@ -46,7 +52,7 @@ class DailyAdapter(val context: Context) :
         holder.binding.day.text = time
 //        when (position) {
 //            0 -> {
-//                holder.binding.day.text = context.getString(R.string.Tomorrow)
+//        holder.binding.day.text = context.getString(R.string.Tomorrow)
 //            }
 //            else -> {
 //                holder.binding.day.text = time

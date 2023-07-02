@@ -17,7 +17,7 @@ import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 import java.util.*
 
-class HourlyAdapter(val context: Context) :
+class HourlyAdapter(val context: Context, var tempUnit: String) :
     ListAdapter<Hourly, HourlyAdapter.ViewHolder>(HourlyDiffUtil()) {
     lateinit var binding: HourlyItemBinding
 
@@ -34,7 +34,13 @@ class HourlyAdapter(val context: Context) :
         var currentHourly: Hourly = getItem(position)
         var icon = currentHourly.weather[0].icon
 
-        holder.binding.hourlyTemp.text = currentHourly.temp.toInt().toString()
+        holder.binding.hourlyTemp.text = MyCompanion.getTemp(tempUnit, currentHourly.temp)
+        binding.hourlyTempUnit.text = when (tempUnit) {
+            MyCompanion.C -> context.getString(R.string.tempunit_celsius)
+            MyCompanion.F -> context.getString(R.string.tempunit_fahrenheit)
+            MyCompanion.K -> context.getString(R.string.tempunit_kelvin)
+            else -> null // Handle any other cases if necessary
+        }
         holder.binding.hourlyDescription.text = currentHourly.weather[0].description
         Glide.with(context)
             .load(MyCompanion.getIconLink(icon))

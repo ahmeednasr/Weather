@@ -19,7 +19,11 @@
         android:id="@+id/settingsFragment"
         android:name="com.example.weather.SettingsFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_myMapFragment"
+            app:destination="@id/myMapFragment" />
+    </fragment>
     <fragment
         android:id="@+id/weatherAlertsFragment"
         android:name="com.example.weather.WeatherAlertsFragment"
@@ -29,7 +33,11 @@
         android:id="@+id/myMapFragment"
         android:name="com.example.weather.map.MyMapFragment"
         android:label="fragment_my_map"
-        tools:layout="@layout/fragment_my_map" />
+        tools:layout="@layout/fragment_my_map" >
+        <action
+            android:id="@+id/action_myMapFragment_to_settingsFragment2"
+            app:destination="@id/settingsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.weather.search.search_view.SearchView"

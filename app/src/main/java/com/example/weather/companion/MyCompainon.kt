@@ -1,17 +1,18 @@
 package com.example.weather.companion
 
 import androidx.lifecycle.ViewModel
+import com.example.weather.SettingsFragment
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 class MyCompanion {
     companion object {
         const val API_Key = "a117466978c46167246dc8d6a700cce6"
-        var currentCity = ""
         fun getIconLink(id: String): String {
             return "https://openweathermap.org/img/wn/$id@2x.png"
         }
 
+        var currentCity = ""
         const val LOCATION_KEY = "LOCATION"
         const val MAP = "MAP"
         const val GPS = "GPS"
@@ -27,50 +28,27 @@ class MyCompanion {
         const val K: String = "°K"
         const val C: String = "°C"
         const val F: String = "°F"
-
-        fun getTemp(unit: String, value: Double): Int {
+        fun getTemp(unit: String, K: Double): String {
             val convertedValue = when (unit) {
-                C -> value - 273.15
-                F -> (value - 273.15) * (9 / 5) + 32
-                else -> value
+                C -> K - 273.15
+                F -> (K - 273.15) * (9 / 5) + 32
+                else -> K
             }
-            return convertedValue.toInt()
+            return convertedValue.toInt().toString()
         }
-//       enum class LocationType(val value: String) {
-//            GPS("gps"),
-//            MAP("map")
-//        }
-//        enum class UnitsType(val value: String) {
-//            METRIC("metric"),
-//            IMPERIAL("imperial")
-//        }
-//        enum class LanguageType(val value: String) {
-//            ARABIC("ar"),
-//            ENGLISH("en")
-//        }
-//
-//        //var currentUnit=()
-//
-//            private val _locationType = MutableStateFlow(LocationType.GPS)
-//            val locationState: StateFlow<LocationType> = _locationType
-//
-//            private val _unitsType = MutableStateFlow(UnitsType.METRIC)
-//            val unitsState: StateFlow<UnitsType> = _unitsType
-//
-//            private val _languageType = MutableStateFlow(LanguageType.ARABIC)
-//            val languageState: StateFlow<LanguageType> = _languageType
-//
-//            fun setLocationType(locationType: LocationType) {
-//                _locationType.value = locationType
-//            }
-//
-//            fun setUnitsType(unitsType: UnitsType) {
-//                _unitsType.value = unitsType
-//            }
-//
-//            fun setLanguageType(languageType: LanguageType) {
-//                _languageType.value = languageType
-//            }
 
+        const val SPEED_KEY = "SPEED"
+        const val METER_PER_SECOND = "m/s"
+        const val MILES_PER_HOUR = "mil/h"
+        fun getSpeed(unit: String, speed: Double): String {
+            val convertedValue = when (unit) {
+                MILES_PER_HOUR -> speed * 2.23694
+                else -> speed
+            }
+            return convertedValue.toString()
+        }
+
+        const val FAV_FRAGMENT = "FAV_FRAGMENT"
+        const val SETTINGS_FRAGMENT = "SETTINGS_FRAGMENT"
     }
 }
