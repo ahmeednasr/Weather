@@ -1,9 +1,6 @@
 package com.example.weather.map
 
-import android.Manifest
-import android.content.ContentValues.TAG
-import android.content.Context
-import android.content.pm.PackageManager
+
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
@@ -13,11 +10,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.app.ActivityCompat
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.example.weather.R
 import com.example.weather.companion.MyCompanion
-import com.google.android.gms.common.api.Status
-import com.google.android.gms.location.places.AutocompleteFilter
+import com.example.weather.favorite.favorite_view.FavoriteViewDirections
+import com.example.weather.search.search_repo.search_result_pojo.CityPojo
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -25,15 +24,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.model.AutocompletePrediction
-import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.api.model.TypeFilter
-import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
-import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse
-import com.google.android.libraries.places.api.net.PlacesClient
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment
-import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
+
 import java.io.IOException
 
 class MyMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListener {
@@ -45,6 +36,8 @@ class MyMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListen
     lateinit var geocoder: Geocoder
     private lateinit var mMap: GoogleMap
     private lateinit var searchBar: SearchView
+    lateinit var controller: NavController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -62,7 +55,10 @@ class MyMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListen
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Toast.makeText(requireContext(), "h my fragment ", Toast.LENGTH_SHORT).show()
+        controller = Navigation.findNavController(view)
+
+        val flag = MyMapFragmentArgs.fromBundle(arguments!!).flag
+        Log.i("FLAG", flag)
         searchBar = view.findViewById(R.id.auto_complete_text_view)
         searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
@@ -71,11 +67,14 @@ class MyMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListen
                 if (location != null) {
                     var geocoder: Geocoder = Geocoder(requireContext())
                     try {
-                        addressList = geocoder.getFromLocationName(location, 1)
+                        addressList = geocoder.getFromLocationName(location, 10)
+                        Log.i("MyList", addressList?.size.toString())
                     } catch (e: IOException) {
                         e.printStackTrace()
                     }
-                    if (addressList != null) {
+                    if (addressList != null && addressList.isNotEmpty()) {
+                        mMap.clear()
+                        Log.i("MyList", addressList.toString())
                         var address: Address = addressList[0]
                         var latLng: LatLng = LatLng(address.latitude, address.longitude)
                         mMap.addMarker(MarkerOptions().position(latLng).title(location))
@@ -86,7 +85,6 @@ class MyMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListen
             }
 
             override fun onQueryTextChange(p0: String?): Boolean {
-
                 return false
             }
         })
@@ -96,14 +94,42 @@ class MyMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListen
                 var address =
                     geocoder.getFromLocation(latitude!!, longitude!!, 1)
                 if (address != null) {
-                    var newLocality = address[0].subAdminArea
+                    var cityDetails = address[0]
+                    var newLocality = address[0].locality
                     if (newLocality != null) {
                         Toast.makeText(requireContext(), newLocality, Toast.LENGTH_SHORT).show()
-                        val sharedPreferences = requireContext().getSharedPreferences("PREFS", 0)
-                        val editor = sharedPreferences.edit()
-                        editor.putFloat(MyCompanion.LATITUDE, latitude!!.toFloat())
-                        editor.putFloat(MyCompanion.LONGITUDE, longitude!!.toFloat())
-                        editor.apply()
+                        when (flag) {
+                            MyCompanion.SETTINGS_FRAGMENT -> {
+                                val sharedPreferences =
+                                    requireContext().getSharedPreferences("PREFS", 0)
+                                val editor = sharedPreferences.edit()
+                                editor.putString(MyCompanion.LOCATION_KEY, MyCompanion.MAP)
+                                editor.putFloat(MyCompanion.LATITUDE, latitude!!.toFloat())
+                                editor.putFloat(MyCompanion.LONGITUDE, longitude!!.toFloat())
+                                editor.apply()
+                                Toast.makeText(requireContext(), "saved", Toast.LENGTH_SHORT).show()
+//                                val action =
+//                                    MyMapFragmentDirections.actionMyMapFragmentToSettingsFragment2()
+//                                controller.navigate(action)
+//                                controller.popBackStack(R.id.myMapFragment, false)
+
+                                controller.navigate(MyMapFragmentDirections.actionMyMapFragmentToSettingsFragment2())
+                            }
+                            MyCompanion.FAV_FRAGMENT -> {
+                                val city: CityPojo = CityPojo(
+                                    cityDetails.countryName,
+                                    cityDetails.latitude,
+                                    cityDetails.longitude,
+                                    cityDetails.locality,
+                                    cityDetails.subAdminArea
+                                )
+                                Log.i("city", "new $city")
+                                val action =
+                                    MyMapFragmentDirections.actionMyMapFragmentToFavoriteFragment()
+                                controller.navigate(action)
+                                controller.popBackStack(R.id.myMapFragment, false)
+                            }
+                        }
                         Log.i("city", "new $newLocality")
                     } else {
                         Toast.makeText(

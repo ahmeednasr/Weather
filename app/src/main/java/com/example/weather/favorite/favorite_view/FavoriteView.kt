@@ -1,6 +1,7 @@
 package com.example.weather.favorite.favorite_view
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,9 +15,11 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weather.R
+import com.example.weather.companion.MyCompanion
 import com.example.weather.databinding.FragmentFavoriteBinding
 import com.example.weather.favorite.favorite_repo.FavoriteRepo
 import com.example.weather.localSource.ConcretLocalSource
+import com.example.weather.map.MyMapFragmentArgs
 import com.example.weather.search.search_repo.search_result_pojo.CityPojo
 import com.example.weather.search.search_view.CityAdapter
 import kotlinx.coroutines.flow.collect
@@ -75,6 +78,8 @@ class FavoriteView : Fragment(), OnCityClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         controller = Navigation.findNavController(view)
+        //Log.i("FLAG", city.toString())
+
         factory = FavoriteViewModelFactory(
             FavoriteRepo.getInstance(
                 ConcretLocalSource.getInstance(requireContext())
@@ -96,7 +101,7 @@ class FavoriteView : Fragment(), OnCityClickListener {
             onAddClicked()
         }
         binding.locationFloating.setOnClickListener {
-            controller.navigate(FavoriteViewDirections.actionFavoriteViewToMyMapFragment())
+            controller.navigate(FavoriteViewDirections.actionFavoriteViewToMyMapFragment(MyCompanion.FAV_FRAGMENT))
         }
         binding.searchFloating.setOnClickListener {
             controller.navigate(FavoriteViewDirections.actionFavoriteViewToSearchFragment())

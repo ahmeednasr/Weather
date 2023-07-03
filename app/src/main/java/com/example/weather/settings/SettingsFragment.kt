@@ -1,4 +1,4 @@
-package com.example.weather
+package com.example.weather.settings
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,11 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.RadioGroup
-import androidx.core.app.ActivityCompat.recreate
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import com.example.weather.R
 import com.example.weather.companion.MyCompanion
+import com.example.weather.favorite.favorite_view.FavoriteViewDirections
 import java.util.*
 
 class SettingsFragment : Fragment() {
+    lateinit var controller: NavController
+
     lateinit var languageRadioGroup: RadioGroup
     lateinit var arabicRadio: RadioButton
     lateinit var englishRadio: RadioButton
@@ -46,6 +51,8 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initUI(view)
 
+        controller = Navigation.findNavController(view)
+
         val sharedPreferences = requireContext().getSharedPreferences("PREFS", 0)
         val editor = sharedPreferences.edit()
         val locationToken = sharedPreferences.getString(MyCompanion.LOCATION_KEY, "")
@@ -66,7 +73,9 @@ class SettingsFragment : Fragment() {
                 editor.putString(MyCompanion.LOCATION_KEY, MyCompanion.GPS)
             } else if (checkedId == R.id.map) {
                 //set direction to map and in map send flag from setting to map to handel it
-
+                controller.navigate(
+                    SettingsFragmentDirections.actionSettingsFragmentToMyMapFragment(MyCompanion.SETTINGS_FRAGMENT)
+                )
                 //editor.putString(MyCompanion.LOCATION_KEY, MyCompanion.MAP)
             }
             editor.apply()
@@ -99,12 +108,16 @@ class SettingsFragment : Fragment() {
             }
         }
         tempUnitRadioGroup.setOnCheckedChangeListener { _, checkedId ->
-            if (checkedId == R.id.C) {
-                editor.putString(MyCompanion.TEMP_KEY, MyCompanion.C)
-            } else if (checkedId == R.id.F) {
-                editor.putString(MyCompanion.TEMP_KEY, MyCompanion.F)
-            } else if (checkedId == R.id.K) {
-                editor.putString(MyCompanion.TEMP_KEY, MyCompanion.K)
+            when (checkedId) {
+                R.id.C -> {
+                    editor.putString(MyCompanion.TEMP_KEY, MyCompanion.C)
+                }
+                R.id.F -> {
+                    editor.putString(MyCompanion.TEMP_KEY, MyCompanion.F)
+                }
+                R.id.K -> {
+                    editor.putString(MyCompanion.TEMP_KEY, MyCompanion.K)
+                }
             }
             editor.apply()
         }

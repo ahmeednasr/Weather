@@ -7,7 +7,7 @@ import java.io.Serializable
 
 @Entity(
     tableName = "Cities",
-    primaryKeys =["country", "name", "state"]
+    primaryKeys =["lat", "lon"]
 )
 data class CityPojo(
     val country: String,

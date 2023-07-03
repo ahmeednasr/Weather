@@ -30,31 +30,15 @@ class MainActivity : AppCompatActivity() {
     lateinit var drawerLayout: DrawerLayout
     lateinit var mainViewModel: MainViewModel
     override fun attachBaseContext(newBase: Context) {
-        val localeUpdatedContext: ContextWrapper = ContextUtils.updateLocale(newBase, Locale.getDefault())
+        val localeUpdatedContext: ContextWrapper =
+            ContextUtils.updateLocale(newBase, Locale.getDefault())
         super.attachBaseContext(localeUpdatedContext)
     }
-   // @RequiresApi(Build.VERSION_CODES.M)
+
+    // @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-//       val sharedPreferences = getSharedPreferences("PREFS", 0)
-//       val language = sharedPreferences.getString(MyCompanion.LANGUAGE_KEY, "")
-//
-//// Update the default locale of the app context
-//       val locale = Locale(language.toString())
-//       Locale.setDefault(locale)
-//       val resources = resources
-//       val config = resources.configuration
-//       config.setLocale(locale)
-//       resources.updateConfiguration(config, resources.displayMetrics)
-//       val context = ContextWrapper(this)
-//       val activityLocale = Locale(language)
-//       val activityConfig = resources.configuration
-//       activityConfig.setLocale(activityLocale)
-//       context.resources.updateConfiguration(
-//           activityConfig,
-//           resources.displayMetrics
-//       )
 
         drawerLayout = findViewById(R.id.drawer_layout)
         navigationView = findViewById(R.id.nav_view)
@@ -110,10 +94,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId==android.R.id.home){
-            if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+        if (item.itemId == android.R.id.home) {
+            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 drawerLayout.closeDrawer(GravityCompat.START)
-            }else{
+            } else {
                 drawerLayout.openDrawer(GravityCompat.START)
             }
         }

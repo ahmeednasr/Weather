@@ -4,8 +4,8 @@ import com.example.weather.localSource.LocalSource
 import com.example.weather.search.search_repo.search_result_pojo.CityPojo
 import kotlinx.coroutines.flow.Flow
 
-class FavoriteRepo private constructor(var localSource: LocalSource):FavoriteRepoInterface {
-    companion object{
+class FavoriteRepo private constructor(var localSource: LocalSource) : FavoriteRepoInterface {
+    companion object {
         private var INSTANCE: FavoriteRepo? = null
         fun getInstance(local: LocalSource): FavoriteRepo {
             return INSTANCE ?: synchronized(this) {
@@ -19,4 +19,8 @@ class FavoriteRepo private constructor(var localSource: LocalSource):FavoriteRep
     override fun getSavedCities(): Flow<List<CityPojo>> = localSource.getLocalCities()
 
     override suspend fun removeCity(city: CityPojo) = localSource.removeCity(city)
+    override suspend fun insertCity(city: CityPojo) {
+        localSource.insertCity(city)
+    }
+
 }

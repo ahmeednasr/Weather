@@ -20,28 +20,30 @@ class LocationWeatherViewModel(private var repo: LocationWeatherRepoInterface) :
     private var _postStateFlow =
         MutableStateFlow<LocationWeatherApiState>(LocationWeatherApiState.Loading)
     val responseFlow: StateFlow<LocationWeatherApiState>
-    get()=_postStateFlow
+        get() = _postStateFlow
     private var _postTimeStateFlow = MutableStateFlow(0L)
     val currentTimeStateFlow: StateFlow<Long>
-    get()=_postTimeStateFlow
+        get() = _postTimeStateFlow
 
     //private var _locationState= MutableStateFlow(String)
 
     init {
         //getTime()
     }
-     fun getTime(){
+
+    fun getTime() {
         viewModelScope.launch {
-            while (true){
-                _postTimeStateFlow.value=System.currentTimeMillis()
+            while (true) {
+                _postTimeStateFlow.value = System.currentTimeMillis()
                 delay(1000)
             }
         }
     }
+
     fun getCurrentLocationResponse(
-        latitude: Double, longitude: Double,language: String
+        latitude: Double, longitude: Double, language: String
     ) {
-        _postStateFlow.value=LocationWeatherApiState.Loading
+        _postStateFlow.value = LocationWeatherApiState.Loading
         viewModelScope.launch {
             try {
                 repo.getCurrentLocationResponse(latitude, longitude, language)
@@ -50,7 +52,7 @@ class LocationWeatherViewModel(private var repo: LocationWeatherRepoInterface) :
                     }
 
             } catch (e: Exception) {
-                Log.d("errMy",e.toString())
+                Log.d("errMy", e.toString())
                 _postStateFlow.value = LocationWeatherApiState.Failure(e)
             }
 //            repo.getCurrentLocationResponse(latitude, longitude, units, language)
@@ -62,6 +64,11 @@ class LocationWeatherViewModel(private var repo: LocationWeatherRepoInterface) :
         }
 
     }
+
+    fun getLocationType(): String = repo.getLocationType()
+    fun getMapDetails(): Pair<Double, Double> = repo.getMapDetails()
+    fun getSpeedUnit(): String = repo.getSpeedUnit()
+    fun getTempUnit(): String = repo.getTempUnit()
 
     override fun onCleared() {
         super.onCleared()

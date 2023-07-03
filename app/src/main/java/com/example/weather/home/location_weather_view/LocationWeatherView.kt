@@ -35,6 +35,7 @@ import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 import java.util.*
 import com.example.weather.R
+import com.example.weather.localSource.ConcretLocalSource
 
 
 class LocationWeatherView : Fragment() {
@@ -46,7 +47,6 @@ class LocationWeatherView : Fragment() {
     lateinit var hourlyAdapter: HourlyAdapter
     lateinit var dailyAdapter: DailyAdapter
     lateinit var myContext: Context
-    lateinit var sharedPreferences: SharedPreferences
     lateinit var locationToken: String
     var lat: Double = 21.38
     var long: Double = 39.85
@@ -72,29 +72,21 @@ class LocationWeatherView : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.i("ONMYCREATE", "ONMYCREATE")
-        sharedPreferences = myContext.getSharedPreferences("PREFS", 0)
-        val editor = sharedPreferences.edit()
-        locationToken = sharedPreferences.getString(MyCompanion.LOCATION_KEY, "").toString()
-        val speedUnitToken = sharedPreferences.getString(MyCompanion.SPEED_KEY, "")
-        if (speedUnitToken != null) {
-            speedUnit = when (speedUnitToken) {
-                MyCompanion.METER_PER_SECOND -> speedUnitToken
-                MyCompanion.MILES_PER_HOUR -> speedUnitToken
-                else -> MyCompanion.METER_PER_SECOND
-            }
-            editor.putString(MyCompanion.SPEED_KEY, speedUnit)
 
-        }
-        val tempUnitToken = sharedPreferences.getString(MyCompanion.TEMP_KEY, "")
-        if (tempUnitToken != null) {
-            tempUnit = when (tempUnitToken) {
-                MyCompanion.C -> tempUnitToken
-                MyCompanion.F -> tempUnitToken
-                else -> MyCompanion.K
-            }
-            editor.putString(MyCompanion.TEMP_KEY, tempUnit)
-        }
-        editor.apply()
+        homeFactory =
+            LocationWeatherFactory(
+                LocationWeatherRepo.getInstance(
+                    LocationWeatherApiClient.getInstance(),
+                    ConcretLocalSource.getInstance(requireContext())
+                )
+            )
+        homeViewModel = ViewModelProvider(this, homeFactory)[LocationWeatherViewModel::class.java]
+        locationToken = homeViewModel.getLocationType()
+
+        //speedUnit=viewModel.getSpeedUnit()
+        speedUnit = homeViewModel.getSpeedUnit()
+        //tempUnit=viewModel.getTempUnit()
+        tempUnit = homeViewModel.getTempUnit()
 
         hourlyAdapter = HourlyAdapter(requireContext(), tempUnit)
         binding.hourlyRecycler.layoutManager =
@@ -106,10 +98,6 @@ class LocationWeatherView : Fragment() {
             LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         binding.dailyRecycler.isNestedScrollingEnabled
         binding.dailyRecycler.adapter = dailyAdapter
-
-        homeFactory =
-            LocationWeatherFactory(LocationWeatherRepo.getInstance(LocationWeatherApiClient.getInstance()))
-        homeViewModel = ViewModelProvider(this, homeFactory)[LocationWeatherViewModel::class.java]
 
         homeViewModel.getTime()
         binding.refresh.setOnRefreshListener {
@@ -131,6 +119,7 @@ class LocationWeatherView : Fragment() {
                     is LocationWeatherApiState.Success -> {
                         binding.loading.visibility = View.GONE
                         binding.refresh.isRefreshing = false
+                        getTime()
 
                         val current = result.data.current
 
@@ -138,6 +127,7 @@ class LocationWeatherView : Fragment() {
                         val addressList =
                             geocoder.getFromLocation(result.data.lat, result.data.lon, 1)
                         Log.i("err", "address name: $addressList")
+
                         if (addressList != null && addressList.isNotEmpty()) {
                             val address = addressList[0]
                             val cityName = address.subAdminArea
@@ -147,7 +137,6 @@ class LocationWeatherView : Fragment() {
                                 Log.i("err", "City in name: $cityName")
                             }
                         }
-                        getTime()
 
                         binding.tempValue.text = MyCompanion.getTemp(tempUnit, current.temp)
                         binding.tempMeasur.text = when (tempUnit) {
@@ -165,8 +154,10 @@ class LocationWeatherView : Fragment() {
 
                         binding.pressureValue.text = current.pressure.toString()
                         binding.humidityValue.text = current.humidity.toString()
+
                         binding.windSpeedValue.text =
                             MyCompanion.getSpeed(speedUnit, current.wind_speed)
+
                         binding.windSpeed.text = when (speedUnit) {
                             MyCompanion.MILES_PER_HOUR -> context?.getString(R.string.mil_h)
                             else -> context?.getString(R.string.m_s)
@@ -201,7 +192,7 @@ class LocationWeatherView : Fragment() {
                 geocoder = Geocoder(myContext)
                 var address =
                     geocoder.getFromLocation(mLastLocation.latitude, mLastLocation.longitude, 1)
-                if (address != null) {
+                if (address != null && address.isNotEmpty()) {
                     var newLocality = address[0].locality
 
                     if (MyCompanion.currentCity != newLocality) {
@@ -225,9 +216,7 @@ class LocationWeatherView : Fragment() {
         if (locationToken == MyCompanion.GPS) {
             getLastLocation()
         } else if (locationToken == MyCompanion.MAP) {
-            //token = sharedPreferences.getString(MyCompanion.LOCATION_KEY, "").toString()
-            lat = sharedPreferences.getFloat(MyCompanion.LATITUDE, 0.0f).toDouble()
-            long = sharedPreferences.getFloat(MyCompanion.LONGITUDE, 0.0f).toDouble()
+            val (lat, long) = homeViewModel.getMapDetails()
             homeViewModel.getCurrentLocationResponse(
                 lat,
                 long,
@@ -235,7 +224,6 @@ class LocationWeatherView : Fragment() {
             )
         }
     }
-
 
     private fun getLastLocation() {
         if (checkPermissions()) {
@@ -309,15 +297,6 @@ class LocationWeatherView : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-
     }
-//
-//    fun get(){
-//        lifecycleScope.launch {
-//            MyCompanion.locationState.collect{
-//
-//            }
-//        }
-//
-//    }
+
 }

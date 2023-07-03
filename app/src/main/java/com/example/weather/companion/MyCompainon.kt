@@ -1,10 +1,5 @@
 package com.example.weather.companion
 
-import androidx.lifecycle.ViewModel
-import com.example.weather.SettingsFragment
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-
 class MyCompanion {
     companion object {
         const val API_Key = "a117466978c46167246dc8d6a700cce6"
@@ -45,7 +40,7 @@ class MyCompanion {
                 MILES_PER_HOUR -> speed * 2.23694
                 else -> speed
             }
-            return convertedValue.toString()
+            return  String.format("%.2f", convertedValue)
         }
 
         const val FAV_FRAGMENT = "FAV_FRAGMENT"

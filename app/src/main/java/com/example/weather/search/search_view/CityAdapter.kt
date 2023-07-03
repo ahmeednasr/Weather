@@ -44,6 +44,4 @@ class CityAdapter(private val listener: SaveCityListener) :
         }
 
     }
-
-
 }

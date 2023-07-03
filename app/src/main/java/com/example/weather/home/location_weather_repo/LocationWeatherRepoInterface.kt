@@ -9,4 +9,8 @@ interface LocationWeatherRepoInterface {
         longitude: Double,
         language: String,
     ): Flow<LocationWeatherResponse>
+    fun getLocationType(): String
+    fun getMapDetails(): Pair<Double, Double>
+    fun getSpeedUnit(): String
+    fun getTempUnit(): String
 }
