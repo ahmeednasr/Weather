@@ -56,31 +56,34 @@ class MyMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         controller = Navigation.findNavController(view)
+        geocoder = Geocoder(requireContext())
 
         val flag = MyMapFragmentArgs.fromBundle(arguments!!).flag
         Log.i("FLAG", flag)
         searchBar = view.findViewById(R.id.auto_complete_text_view)
         searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
-                var location: String = searchBar.query.toString()
+                val location: String = searchBar.query.toString()
                 var addressList: List<Address>? = null
-                if (location != null) {
-                    var geocoder: Geocoder = Geocoder(requireContext())
-                    try {
-                        addressList = geocoder.getFromLocationName(location, 10)
-                        Log.i("MyList", addressList?.size.toString())
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
-                    if (addressList != null && addressList.isNotEmpty()) {
-                        mMap.clear()
-                        Log.i("MyList", addressList.toString())
-                        var address: Address = addressList[0]
-                        var latLng: LatLng = LatLng(address.latitude, address.longitude)
-                        mMap.addMarker(MarkerOptions().position(latLng).title(location))
-                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10f))
-                    }
+                try {
+                    addressList = geocoder.getFromLocationName(location, 3)
+
+                    Log.i("FLAG", addressList.toString())
+                } catch (e: IOException) {
+                    e.printStackTrace()
                 }
+                if (addressList != null && addressList.isNotEmpty()) {
+                    mMap.clear()
+                    Log.i("MyList", addressList.toString())
+                    val address: Address = addressList[0]
+                    latitude = address.latitude
+                    longitude = address.longitude
+
+                    val latLng: LatLng = LatLng(address.latitude, address.longitude)
+                    mMap.addMarker(MarkerOptions().position(latLng).title(location))
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10f))
+                }
+
                 return false
             }
 
@@ -90,14 +93,20 @@ class MyMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListen
         })
         okBtn.setOnClickListener {
             if (latitude != null && longitude != null) {
-                geocoder = Geocoder(requireContext())
-                var address =
-                    geocoder.getFromLocation(latitude!!, longitude!!, 1)
+                val address =
+                    geocoder.getFromLocation(latitude!!, longitude!!, 3)
                 if (address != null) {
-                    var cityDetails = address[0]
-                    var newLocality = address[0].locality
+                    Log.i("FLAG", address.toString())
+                    val cityDetails = address[0]
+
+                    val newLocality = address[0].locality
+                    val subAdmin = address[0].subAdminArea
+                    val subLocality = address[0].subLocality
+
+                    val cityName = newLocality ?: subLocality ?: subAdmin
+                    Log.i("FLAG", " test me $newLocality ,$subLocality ,$subAdmin")
                     if (newLocality != null) {
-                        Toast.makeText(requireContext(), newLocality, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), cityName, Toast.LENGTH_SHORT).show()
                         when (flag) {
                             MyCompanion.SETTINGS_FRAGMENT -> {
                                 val sharedPreferences =
@@ -107,17 +116,17 @@ class MyMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListen
                                 editor.putFloat(MyCompanion.LATITUDE, latitude!!.toFloat())
                                 editor.putFloat(MyCompanion.LONGITUDE, longitude!!.toFloat())
                                 editor.apply()
-                                Toast.makeText(requireContext(), "saved", Toast.LENGTH_SHORT).show()
-//                                val action =
-//                                    MyMapFragmentDirections.actionMyMapFragmentToSettingsFragment2()
-//                                controller.navigate(action)
-//                                controller.popBackStack(R.id.myMapFragment, false)
-
-                                controller.navigate(MyMapFragmentDirections.actionMyMapFragmentToSettingsFragment2())
+                                Toast.makeText(
+                                    requireContext(),
+                                    "saved$latitude",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                controller.navigate(MyMapFragmentDirections.actionMyMapFragmentToSettingsFragment())
                             }
                             MyCompanion.FAV_FRAGMENT -> {
+
                                 val city: CityPojo = CityPojo(
-                                    cityDetails.countryName,
+                                    cityDetails.countryCode,
                                     cityDetails.latitude,
                                     cityDetails.longitude,
                                     cityDetails.locality,
@@ -126,11 +135,12 @@ class MyMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListen
                                 Log.i("city", "new $city")
                                 val action =
                                     MyMapFragmentDirections.actionMyMapFragmentToFavoriteFragment()
+                                action.city = city
+                                action.flag = true
                                 controller.navigate(action)
-                                controller.popBackStack(R.id.myMapFragment, false)
                             }
                         }
-                        Log.i("city", "new $newLocality")
+                        Log.i("city", "new $cityName")
                     } else {
                         Toast.makeText(
                             requireContext(),
@@ -148,21 +158,6 @@ class MyMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListen
     override fun onResume() {
         super.onResume()
         mapView.onResume()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        mapView.onPause()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        mapView.onDestroy()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        mapView.onSaveInstanceState(outState)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

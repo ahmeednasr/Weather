@@ -21,6 +21,7 @@ class LocationWeatherViewModel(private var repo: LocationWeatherRepoInterface) :
         MutableStateFlow<LocationWeatherApiState>(LocationWeatherApiState.Loading)
     val responseFlow: StateFlow<LocationWeatherApiState>
         get() = _postStateFlow
+
     private var _postTimeStateFlow = MutableStateFlow(0L)
     val currentTimeStateFlow: StateFlow<Long>
         get() = _postTimeStateFlow
@@ -28,6 +29,7 @@ class LocationWeatherViewModel(private var repo: LocationWeatherRepoInterface) :
     //private var _locationState= MutableStateFlow(String)
 
     init {
+
         //getTime()
     }
 

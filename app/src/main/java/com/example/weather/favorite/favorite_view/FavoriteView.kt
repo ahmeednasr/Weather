@@ -20,6 +20,7 @@ import com.example.weather.databinding.FragmentFavoriteBinding
 import com.example.weather.favorite.favorite_repo.FavoriteRepo
 import com.example.weather.localSource.ConcretLocalSource
 import com.example.weather.map.MyMapFragmentArgs
+import com.example.weather.map.MyMapFragmentDirections
 import com.example.weather.search.search_repo.search_result_pojo.CityPojo
 import com.example.weather.search.search_view.CityAdapter
 import kotlinx.coroutines.flow.collect
@@ -79,24 +80,41 @@ class FavoriteView : Fragment(), OnCityClickListener {
         super.onViewCreated(view, savedInstanceState)
         controller = Navigation.findNavController(view)
         //Log.i("FLAG", city.toString())
-
+        val args = FavoriteViewArgs.fromBundle(requireArguments())
+        val flag = args.flag
+        //  val city = FavoriteViewArgs.fromBundle(arguments!!).city
+        Log.i("FLAG", flag.toString())
+//        if (flag != MyCompanion.MAP_FRAGMENT) {
+//            Log.i("FLAG", "nulllllllll")
+//        } else {
+//            Log.i("FLAG", flag)
+//            //Log.i("FLAG", args.city.toString())
+//        }
         factory = FavoriteViewModelFactory(
             FavoriteRepo.getInstance(
                 ConcretLocalSource.getInstance(requireContext())
             )
         )
-
         viewModel = ViewModelProvider(this, factory)[FavoriteViewModel::class.java]
+        if (flag) {
+            val city = args.city
+            Log.i("FLAG", city.toString())
+            if (city != null) {
+                viewModel.insertCity(city)
+            }
+        }
         favAdapter = FavoriteAdapter(this)
         binding.favCitiesRecyclerView.adapter = favAdapter
         binding.favCitiesRecyclerView.layoutManager =
             LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        viewModel.getCities()
-        lifecycleScope.launch {
-            viewModel.citiesList.collect {
-                favAdapter.submitList(it)
-            }
+        viewModel.citiesList.observe(this) {
+            favAdapter.submitList(it)
         }
+//        lifecycleScope.launch {
+//            viewModel.citiesList.collect {
+//
+//            }
+//        }
         binding.addFloating.setOnClickListener {
             onAddClicked()
         }
@@ -109,11 +127,14 @@ class FavoriteView : Fragment(), OnCityClickListener {
     }
 
     override fun removeCity(city: CityPojo) {
-
         viewModel.deleteCity(city)
     }
 
     override fun viewCity(city: CityPojo) {
+        val action =
+            FavoriteViewDirections.actionFavoriteFragmentToCityView()
+        action.city = city
+        controller.navigate(action)
         //navCtrl
     }
 

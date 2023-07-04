@@ -71,6 +71,7 @@ class SettingsFragment : Fragment() {
         locationTypeRadioGroup.setOnCheckedChangeListener { _, checkedId ->
             if (checkedId == R.id.gps) {
                 editor.putString(MyCompanion.LOCATION_KEY, MyCompanion.GPS)
+                editor.apply()
             } else if (checkedId == R.id.map) {
                 //set direction to map and in map send flag from setting to map to handel it
                 controller.navigate(
@@ -78,7 +79,6 @@ class SettingsFragment : Fragment() {
                 )
                 //editor.putString(MyCompanion.LOCATION_KEY, MyCompanion.MAP)
             }
-            editor.apply()
         }
         when (speedUnitToken) {
             MyCompanion.METER_PER_SECOND -> {

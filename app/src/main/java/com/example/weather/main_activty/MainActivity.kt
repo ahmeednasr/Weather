@@ -19,6 +19,8 @@ import androidx.navigation.ui.NavigationUI
 import com.example.weather.R
 import com.example.weather.companion.ContextUtils
 import com.example.weather.companion.MyCompanion
+import com.example.weather.favorite.favorite_view.FavoriteViewDirections
+import com.example.weather.map.MyMapFragmentDirections
 import com.google.android.material.navigation.NavigationView
 import org.intellij.lang.annotations.Language
 import java.util.*
@@ -94,14 +96,40 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                drawerLayout.closeDrawer(GravityCompat.START)
-            } else {
-                drawerLayout.openDrawer(GravityCompat.START)
+        when (item.itemId) {
+            R.id.favoriteFragment -> {
+                val city = MyCompanion.CITY_DEFAULT
+                val action =
+                    MyMapFragmentDirections.actionMyMapFragmentToFavoriteFragment()
+
+                navController.navigate(action)
+                navController.popBackStack()
+                return true
             }
+            R.id.homeFragment -> {
+                val action = FavoriteViewDirections.actionFavoriteFragmentToHomeFragment()
+                navController.navigate(action)
+                navController.popBackStack()
+                return true
+            }
+            android.R.id.home -> {
+                if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                } else {
+                    drawerLayout.openDrawer(GravityCompat.START)
+                }
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
+//        if (item.itemId == android.R.id.home) {
+//            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+//                drawerLayout.closeDrawer(GravityCompat.START)
+//            } else {
+//                drawerLayout.openDrawer(GravityCompat.START)
+//            }
+//        }
+//        return super.onOptionsItemSelected(item)
     }
 
 //    @RequiresApi(Build.VERSION_CODES.M)

@@ -1,5 +1,6 @@
 package com.example.weather.favorite.favorite_repo
 
+import androidx.lifecycle.LiveData
 import com.example.weather.localSource.LocalSource
 import com.example.weather.search.search_repo.search_result_pojo.CityPojo
 import kotlinx.coroutines.flow.Flow
@@ -16,7 +17,7 @@ class FavoriteRepo private constructor(var localSource: LocalSource) : FavoriteR
         }
     }
 
-    override fun getSavedCities(): Flow<List<CityPojo>> = localSource.getLocalCities()
+    override suspend fun getSavedCities(): List<CityPojo> = localSource.getLocalCities()
 
     override suspend fun removeCity(city: CityPojo) = localSource.removeCity(city)
     override suspend fun insertCity(city: CityPojo) {
