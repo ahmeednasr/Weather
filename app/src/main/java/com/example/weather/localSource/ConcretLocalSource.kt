@@ -3,11 +3,8 @@ package com.example.weather.localSource
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
-import androidx.lifecycle.LiveData
 import com.example.weather.companion.MyCompanion
-import com.example.weather.search.search_repo.search_result_pojo.CityPojo
-import kotlinx.coroutines.flow.Flow
-import java.util.*
+import com.example.weather.map.repo.search_result_pojo.CityPojo
 
 class ConcretLocalSource(private val context: Context) : LocalSource {
     private var dao: CityDao
@@ -34,9 +31,13 @@ class ConcretLocalSource(private val context: Context) : LocalSource {
 
     override suspend fun getLocalCities(): List<CityPojo> = dao.getCities()
 
-    override suspend fun insertCity(city: CityPojo) = dao.insertCity(city)
+    override suspend fun insertCity(city: CityPojo) {
+        city.state = city.state ?: ""
+        dao.insertCity(city)
+    }
 
     override suspend fun removeCity(city: CityPojo) = dao.deleteCity(city)
+
 
     override fun getLocationType(): String {
         return sharedPreferences.getString(MyCompanion.LOCATION_KEY, "").toString()

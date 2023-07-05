@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.weather.search.search_repo.search_result_pojo.CityPojo
+import com.example.weather.map.repo.search_result_pojo.CityPojo
 
 @Database(entities = [CityPojo::class], version = 1)
 abstract class CityDB:RoomDatabase(){

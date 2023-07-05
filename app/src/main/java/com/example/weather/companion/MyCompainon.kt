@@ -1,6 +1,6 @@
 package com.example.weather.companion
 
-import com.example.weather.search.search_repo.search_result_pojo.CityPojo
+import com.example.weather.map.repo.search_result_pojo.CityPojo
 
 class MyCompanion {
     companion object {
@@ -48,6 +48,6 @@ class MyCompanion {
         const val FAV_FRAGMENT = "FAV_FRAGMENT"
         const val SETTINGS_FRAGMENT = "SETTINGS_FRAGMENT"
         const val MAP_FRAGMENT="MAP_FRAGMENT"
-        val CITY_DEFAULT=CityPojo("",0.0,0.0,"","")
+        val CITY_DEFAULT= CityPojo("",0.0,0.0,"","")
     }
 }

@@ -1,11 +1,10 @@
-package com.example.weather.search.search_repo.remote
+package com.example.weather.map.repo.search_remote
 
 import android.util.Log
-import com.example.weather.search.search_repo.search_result_pojo.SearchResponse
+import com.example.weather.map.repo.search_result_pojo.SearchResponse
 import com.google.gson.Gson
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 
 class SearchApiClient : SearchRemoteSource {
     init {
@@ -30,7 +29,7 @@ class SearchApiClient : SearchRemoteSource {
     }
 
     override suspend fun getSearchResponse(city: String): SearchResponse {
-        var res=retrofit.getSearchResult(city)
+        var res= retrofit.getSearchResult(city)
         Log.i("Search", res.toString())
         return res
     }

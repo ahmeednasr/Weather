@@ -1,8 +1,6 @@
 package com.example.weather.favorite.favorite_repo
 
-import androidx.lifecycle.LiveData
-import com.example.weather.search.search_repo.search_result_pojo.CityPojo
-import kotlinx.coroutines.flow.Flow
+import com.example.weather.map.repo.search_result_pojo.CityPojo
 
 interface FavoriteRepoInterface {
     suspend fun getSavedCities(): List<CityPojo>

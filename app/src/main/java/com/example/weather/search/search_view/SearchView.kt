@@ -1,8 +1,6 @@
 package com.example.weather.search.search_view
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
@@ -17,16 +15,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weather.databinding.FragmentSearchBinding
 import com.example.weather.localSource.ConcretLocalSource
+import com.example.weather.map.CityAdapter
+import com.example.weather.map.MapViewModel
+import com.example.weather.map.MapViewModelFactory
 import com.example.weather.search.SaveCityListener
-import com.example.weather.search.search_repo.SearchApiState
-import com.example.weather.search.search_repo.SearchRepo
-import com.example.weather.search.search_repo.remote.SearchApiClient
-import com.example.weather.search.search_repo.search_result_pojo.CityPojo
+import com.example.weather.map.repo.ApiState
+import com.example.weather.map.repo.Repo
+import com.example.weather.map.repo.search_remote.SearchApiClient
+import com.example.weather.map.repo.search_result_pojo.CityPojo
 import kotlinx.coroutines.launch
 
 class SearchView : Fragment(), SaveCityListener {
-    private lateinit var searchFactory: SearchViewModelFactory
-    private lateinit var searchViewModel: SearchViewModel
+    private lateinit var searchFactory: MapViewModelFactory
+    private lateinit var mapViewModel: MapViewModel
     lateinit var binding: FragmentSearchBinding
     lateinit var cityAdapter: CityAdapter
 
@@ -45,22 +46,22 @@ class SearchView : Fragment(), SaveCityListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        searchFactory = SearchViewModelFactory(
-            SearchRepo.getInstance(
+        searchFactory = MapViewModelFactory(
+            Repo.getInstance(
                 SearchApiClient.getInstance(),
                 ConcretLocalSource.getInstance(requireContext())
             )
         )
-        searchViewModel = ViewModelProvider(this, searchFactory)[SearchViewModel::class.java]
+        mapViewModel = ViewModelProvider(this, searchFactory)[MapViewModel::class.java]
         //searchViewModel.getSearchData("cairo")
-        cityAdapter = CityAdapter(this)
+        // cityAdapter = CityAdapter(this)
         binding.cityRecyclerView.layoutManager =
             LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         binding.cityRecyclerView.adapter = cityAdapter
 
         binding.searchBar.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE || (event.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)) {
-                searchViewModel.search(v.text.toString())
+                mapViewModel.search(v.text.toString())
                 true
             } else {
                 false
@@ -68,15 +69,15 @@ class SearchView : Fragment(), SaveCityListener {
         }
 
         lifecycleScope.launch {
-            searchViewModel.responseSearchFlow.collect { result ->
+            mapViewModel.responseSearchFlow.collect { result ->
                 when (result) {
-                    is SearchApiState.Success -> {
+                    is ApiState.Success -> {
                         binding.searchLoading.visibility = View.GONE
                         binding.cityRecyclerView.visibility = View.VISIBLE
                         Log.i("MySearch", result.data.toString())
-                        cityAdapter.submitList(result.data)
+                        cityAdapter.data = result.data
                     }
-                    is SearchApiState.Failure -> {
+                    is ApiState.Failure -> {
                         binding.searchLoading.visibility = View.GONE
                         binding.cityRecyclerView.visibility = View.INVISIBLE
                         Log.i("MySearch", result.msg.toString())
@@ -93,7 +94,7 @@ class SearchView : Fragment(), SaveCityListener {
     }
 
     override fun onCityClick(city: CityPojo) {
-        searchViewModel.saveCity(city)
+        mapViewModel.saveCity(city)
         Toast.makeText(requireContext(), "${city.name} saved", Toast.LENGTH_SHORT).show()
         //_viewmodel.addFav(city)
     }

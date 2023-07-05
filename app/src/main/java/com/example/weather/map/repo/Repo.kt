@@ -1,24 +1,24 @@
-package com.example.weather.search.search_repo
+package com.example.weather.map.repo
 
 import com.example.weather.localSource.LocalSource
-import com.example.weather.search.search_repo.remote.SearchRemoteSource
-import com.example.weather.search.search_repo.search_result_pojo.CityPojo
-import com.example.weather.search.search_repo.search_result_pojo.SearchResponse
+import com.example.weather.map.repo.search_remote.SearchRemoteSource
+import com.example.weather.map.repo.search_result_pojo.CityPojo
+import com.example.weather.map.repo.search_result_pojo.SearchResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
-class SearchRepo private constructor(
+class Repo private constructor(
     var remoteSource: SearchRemoteSource,
     var localSource: LocalSource
-) : SearchRepoInterface {
+) : RepoInterface {
 
     companion object {
-        private var INSTANCE: SearchRepo? = null
-        fun getInstance(remoteSource: SearchRemoteSource, localSource: LocalSource): SearchRepo {
+        private var INSTANCE: Repo? = null
+        fun getInstance(remoteSource: SearchRemoteSource, localSource: LocalSource): Repo {
             return INSTANCE ?: synchronized(this) {
-                val instance = SearchRepo(remoteSource, localSource)
+                val instance = Repo(remoteSource, localSource)
                 INSTANCE = instance
                 instance
             }

@@ -1,14 +1,13 @@
 package com.example.weather.favorite.favorite_view
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weather.databinding.FavCityItemBinding
-import com.example.weather.search.search_repo.search_result_pojo.CityPojo
+import com.example.weather.map.repo.search_result_pojo.CityPojo
 
 class FavoriteAdapter(private val listener: OnCityClickListener) :
     ListAdapter<CityPojo, FavoriteAdapter.ViewHolder>(FavoriteAdapter.CityDiffUtil()) {
@@ -26,7 +25,8 @@ class FavoriteAdapter(private val listener: OnCityClickListener) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentCity: CityPojo = getItem(position)
         holder.binding.cityName.text = currentCity.name
-        val description = "${currentCity.country},${currentCity.state}"
+
+        val description = "${currentCity.country},${currentCity.state?:""}"
         holder.binding.cityDiscription.text = description
         holder.binding.remove.setOnClickListener {
             listener.removeCity(currentCity)

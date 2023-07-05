@@ -20,7 +20,6 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weather.companion.MyCompanion
@@ -36,9 +35,7 @@ import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 import java.util.*
 import com.example.weather.R
-import com.example.weather.favorite.favorite_view.FavoriteViewArgs
 import com.example.weather.localSource.ConcretLocalSource
-import com.example.weather.search.search_repo.search_result_pojo.CityPojo
 
 
 class LocationWeatherView : Fragment() {

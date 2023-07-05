@@ -1,8 +1,6 @@
 package com.example.weather.localSource
 
-import androidx.lifecycle.LiveData
-import com.example.weather.search.search_repo.search_result_pojo.CityPojo
-import kotlinx.coroutines.flow.Flow
+import com.example.weather.map.repo.search_result_pojo.CityPojo
 
 interface LocalSource {
     suspend fun getLocalCities(): List<CityPojo>

@@ -1,6 +1,5 @@
 package com.example.weather.city_page
 
-import android.content.Context
 import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
@@ -9,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.FragmentFactory
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -19,14 +17,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.weather.R
 import com.example.weather.companion.MyCompanion
 import com.example.weather.databinding.FragmentCityViewBinding
-import com.example.weather.databinding.FragmentHomeBinding
 import com.example.weather.home.location_weather_repo.LocationWeatherApiState
 import com.example.weather.home.location_weather_repo.LocationWeatherRepo
 import com.example.weather.home.location_weather_repo.remote.LocationWeatherApiClient
 import com.example.weather.home.location_weather_view.*
 import com.example.weather.localSource.ConcretLocalSource
-import com.example.weather.search.search_repo.search_result_pojo.CityPojo
-import com.google.android.gms.location.FusedLocationProviderClient
+import com.example.weather.map.repo.search_result_pojo.CityPojo
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat

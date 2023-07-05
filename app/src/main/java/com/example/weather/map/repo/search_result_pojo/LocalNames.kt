@@ -1,4 +1,4 @@
-package com.example.weather.search.search_repo.search_result_pojo
+package com.example.weather.map.repo.search_result_pojo
 
 data class LocalNames(
     val ar: String,

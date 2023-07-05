@@ -1,20 +1,19 @@
-package com.example.weather.search.search_repo.search_result_pojo
+package com.example.weather.map.repo.search_result_pojo
 
 import androidx.room.Entity
 import androidx.room.Ignore
-import androidx.room.PrimaryKey
 import java.io.Serializable
 
 @Entity(
     tableName = "Cities",
-    primaryKeys =["lat", "lon"]
+    primaryKeys = ["lat", "lon"]
 )
 data class CityPojo(
     val country: String,
     val lat: Double,
     val lon: Double,
     val name: String,
-    val state: String,
+    var state: String = "",
 ) : Serializable {
     constructor(
         country: String,

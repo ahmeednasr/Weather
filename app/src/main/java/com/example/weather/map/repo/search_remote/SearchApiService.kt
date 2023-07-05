@@ -1,7 +1,7 @@
-package com.example.weather.search.search_repo.remote
+package com.example.weather.map.repo.search_remote
 
 import com.example.weather.companion.MyCompanion
-import com.example.weather.search.search_repo.search_result_pojo.SearchResponse
+import com.example.weather.map.repo.search_result_pojo.SearchResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
