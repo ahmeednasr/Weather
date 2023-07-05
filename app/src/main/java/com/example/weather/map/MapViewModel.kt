@@ -14,9 +14,6 @@ class MapViewModel(private var repo: RepoInterface) : ViewModel() {
     private var _postSearchStateFlow = MutableStateFlow<ApiState>(ApiState.Loading)
     val responseSearchFlow: StateFlow<ApiState>
         get() = _postSearchStateFlow
-    val queryStateFlow = MutableStateFlow("")
-
-    var myRequest: String = ""
 
     private fun getSearchData(city: String) {
         _postSearchStateFlow.value = ApiState.Loading
