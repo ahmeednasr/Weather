@@ -2,7 +2,6 @@ package com.example.weather.main_activty
 
 import android.content.Context
 import android.content.ContextWrapper
-import android.content.SharedPreferences
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Spannable
@@ -17,7 +16,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.example.weather.R
-import com.example.weather.companion.ContextUtils
+import com.example.weather.system.companion.ContextUtils
 import com.google.android.material.navigation.NavigationView
 import java.util.*
 

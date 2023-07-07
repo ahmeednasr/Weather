@@ -1,10 +1,8 @@
 package com.example.weather.map
 
 
-import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
-import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -20,25 +18,21 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weather.R
-import com.example.weather.companion.MyCompanion
-import com.example.weather.localSource.ConcretLocalSource
-import com.example.weather.map.repo.ApiState
-import com.example.weather.map.repo.Repo
-import com.example.weather.map.repo.search_remote.SearchApiClient
-import com.example.weather.map.repo.search_result_pojo.CityPojo
-import com.example.weather.map.repo.search_result_pojo.SearchResponse
+import com.example.weather.system.companion.MyCompanion
+import com.example.weather.data_source.localSource.ConcretLocalSource
+import com.example.weather.data_source.search_repo.SearchApiState
+import com.example.weather.data_source.search_repo.SearchRepo
+import com.example.weather.data_source.search_repo.search_remote.SearchApiClient
+import com.example.weather.data_source.search_repo.search_result_pojo.CityPojo
+import com.example.weather.data_source.search_repo.search_result_pojo.SearchResponse
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import java.io.IOException
 
 
 class MapView : Fragment(), OnCitySelected, OnMapReadyCallback, GoogleMap.OnMapClickListener {
@@ -88,7 +82,7 @@ class MapView : Fragment(), OnCitySelected, OnMapReadyCallback, GoogleMap.OnMapC
         cityRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
 
         mapFactory = MapViewModelFactory(
-            Repo.getInstance(
+            SearchRepo.getInstance(
                 SearchApiClient.getInstance(),
                 ConcretLocalSource.getInstance(requireContext())
             )
@@ -101,28 +95,16 @@ class MapView : Fragment(), OnCitySelected, OnMapReadyCallback, GoogleMap.OnMapC
         lifecycleScope.launch {
             mapViewModel.responseSearchFlow.collect { result ->
                 when (result) {
-                    is ApiState.Success -> {
+                    is SearchApiState.Success -> {
                         cityRecyclerView.visibility = View.VISIBLE
                         Log.i("MySearch", " myTest-> ${result.data.toString()}")
                         mySearchResponse = result.data
-                        adapter.data=mySearchResponse
-                        //adapter.submitList(mySearchResponse)
-//                        stateFlow.value = myRequest
-//                        stateFlow.map { st ->
-//                            mySearchResponse.filter { item ->
-//                                item.name.startsWith(
-//                                    st,
-//                                    true
-//                                )
-//                            }
-//                        }.collect {
-//
-//                        }adapter.submitList(it)
+                        adapter.data = mySearchResponse
                     }
-                    is ApiState.Failure -> {
+                    is SearchApiState.Failure -> {
                         cityRecyclerView.visibility = View.INVISIBLE
                         Log.i("MySearch", result.msg.toString())
-                        Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show()
                     }
                     else -> {
                         //loading
@@ -150,7 +132,6 @@ class MapView : Fragment(), OnCitySelected, OnMapReadyCallback, GoogleMap.OnMapC
                     ).show()
                     controller.popBackStack()
                 }
-
                 MyCompanion.FAV_FRAGMENT -> {
                     if (mCity != null) {
                         Log.i("city", "new $mCity")
@@ -162,7 +143,6 @@ class MapView : Fragment(), OnCitySelected, OnMapReadyCallback, GoogleMap.OnMapC
                         ).show()
                         controller.popBackStack()
                     }
-
                 }
             }
         }
@@ -178,7 +158,7 @@ class MapView : Fragment(), OnCitySelected, OnMapReadyCallback, GoogleMap.OnMapC
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-
+        mMap.mapType = GoogleMap.MAP_TYPE_HYBRID
         // Set an OnMapClickListener on the map
         mMap.setOnMapClickListener(this)
 
@@ -220,9 +200,8 @@ class MapView : Fragment(), OnCitySelected, OnMapReadyCallback, GoogleMap.OnMapC
     }
 
     override fun selectCity(city: CityPojo) {
+        cityRecyclerView.visibility = View.INVISIBLE
         mCity = city
-//        val address =
-//            geocoder.getFromLocation(city.lat, city.lon, 1)
         mMap.clear()
         latitude = city.lat
         longitude = city.lon

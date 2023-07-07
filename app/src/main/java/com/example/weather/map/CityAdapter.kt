@@ -1,15 +1,10 @@
 package com.example.weather.map
 
-import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.weather.data_source.search_repo.search_result_pojo.CityPojo
 import com.example.weather.databinding.SearchCityItemBinding
-import com.example.weather.search.SaveCityListener
-import com.example.weather.map.repo.search_result_pojo.CityPojo
 
 class CityAdapter(private val listener: OnCitySelected) :
     RecyclerView.Adapter<CityAdapter.ViewHolder>() {

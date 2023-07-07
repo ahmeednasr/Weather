@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".city_page.CityView">
+    tools:context=".city_view.CityView">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refresh"
@@ -23,7 +23,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:context=".home.location_weather_view.LocationWeatherView">
+            tools:context=".home_view.HomeView">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.weather.home.location_weather_view.LocationWeatherView"
+        android:name="com.example.weather.home_view.HomeView"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home">
         <argument
@@ -48,7 +48,7 @@
         tools:layout="@layout/fragment_search" />
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="com.example.weather.favorite.favorite_view.FavoriteView"
+        android:name="com.example.weather.favorite_view.FavoriteView"
         android:label="fragment_favorite"
         tools:layout="@layout/fragment_favorite">
         <action
@@ -64,12 +64,12 @@
     </fragment>
     <fragment
         android:id="@+id/cityView"
-        android:name="com.example.weather.city_page.CityView"
+        android:name="com.example.weather.city_view.CityView"
         android:label="fragment_city_view"
         tools:layout="@layout/fragment_city_view" >
         <argument
             android:name="city"
-            app:argType="com.example.weather.map.repo.search_result_pojo.CityPojo"
+            app:argType="com.example.weather.data_source.search_repo.search_result_pojo.CityPojo"
             app:nullable="true"
             android:defaultValue="@null" />
     </fragment>

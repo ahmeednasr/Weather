@@ -1,6 +1,7 @@
 package com.example.weather.settings
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +11,7 @@ import android.widget.RadioGroup
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.weather.R
-import com.example.weather.companion.MyCompanion
-import com.example.weather.favorite.favorite_view.FavoriteViewDirections
+import com.example.weather.system.companion.MyCompanion
 import java.util.*
 
 class SettingsFragment : Fragment() {
@@ -69,15 +69,17 @@ class SettingsFragment : Fragment() {
         //  editor.putString(MyCompanion.SPEED_KEY, speedUnit)
 
         locationTypeRadioGroup.setOnCheckedChangeListener { _, checkedId ->
-            if (checkedId == R.id.gps) {
-                editor.putString(MyCompanion.LOCATION_KEY, MyCompanion.GPS)
-                editor.apply()
-            } else if (checkedId == R.id.map) {
-                //set direction to map and in map send flag from setting to map to handel it
-                controller.navigate(
-                    SettingsFragmentDirections.actionSettingsFragmentToMyMapFragment(MyCompanion.SETTINGS_FRAGMENT)
-                )
-                //editor.putString(MyCompanion.LOCATION_KEY, MyCompanion.MAP)
+            when (checkedId) {
+                R.id.gps -> {
+                    editor.putString(MyCompanion.LOCATION_KEY, MyCompanion.GPS)
+                    editor.apply()
+                }
+                R.id.map -> {
+                    //set direction to map and in map send flag from setting to map to handel it
+                    val action =
+                        SettingsFragmentDirections.actionSettingsFragmentToMyMapFragment(MyCompanion.SETTINGS_FRAGMENT)
+                    controller.navigate(action)
+                }
             }
         }
         when (speedUnitToken) {
@@ -89,13 +91,16 @@ class SettingsFragment : Fragment() {
             }
         }
         speedUnitRadioGroup.setOnCheckedChangeListener { _, checkedId ->
-            if (checkedId == R.id.meter_s) {
-                editor.putString(MyCompanion.SPEED_KEY, MyCompanion.METER_PER_SECOND)
-            } else if (checkedId == R.id.mile_h) {
-                editor.putString(MyCompanion.SPEED_KEY, MyCompanion.MILES_PER_HOUR)
+            when (checkedId) {
+                R.id.meter_s -> editor.putString(
+                    MyCompanion.SPEED_KEY,
+                    MyCompanion.METER_PER_SECOND
+                )
+                R.id.mile_h -> editor.putString(MyCompanion.SPEED_KEY, MyCompanion.MILES_PER_HOUR)
             }
             editor.apply()
         }
+
         when (tempUnitToken) {
             MyCompanion.K -> {
                 kRadio.isChecked = true
@@ -123,7 +128,8 @@ class SettingsFragment : Fragment() {
         }
         val currentLocale = Locale.getDefault()
         val currentLanguage = currentLocale.language
-        if (currentLanguage == "en") {
+        Log.i("LANGUAGE", currentLanguage)
+        if (currentLanguage == "en" || currentLanguage.isEmpty()) {
             englishRadio.isChecked = true
             //languageGroup.check(R.id.english)
         } else if (currentLanguage == "ar") {

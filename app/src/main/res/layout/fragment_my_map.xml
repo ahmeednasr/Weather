@@ -5,31 +5,22 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/dark_blue"
     tools:context=".map.MapView">
 
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/map_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:contentDescription="@string/map"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/auto_complete_text_view"
         tools:ignore="SpeakableTextPresentCheck" />
 
-<!--    <fragment-->
-<!--        android:id="@+id/autocomplete_fragment"-->
-<!--        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="50dp"-->
-<!--        android:layout_marginStart="8dp"-->
-<!--        android:layout_marginTop="8dp"-->
-<!--        android:layout_marginEnd="8dp"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
     <SearchView
         android:id="@+id/auto_complete_text_view"
         android:layout_width="match_parent"
@@ -37,7 +28,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/border"
+        android:background="@color/light_blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -46,14 +37,13 @@
         android:id="@+id/city_recomended_recycl"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@color/dark_blue"
+        android:background="@color/light_blue"
         app:layout_constraintEnd_toEndOf="@+id/auto_complete_text_view"
         app:layout_constraintStart_toStartOf="@+id/auto_complete_text_view"
         app:layout_constraintTop_toBottomOf="@+id/auto_complete_text_view"
         tools:itemCount="2"
-        tools:listitem="@layout/city_map_item" />
+        tools:listitem="@layout/city_map_item"
+        />
 
     <Button
         android:id="@+id/ok_btn"

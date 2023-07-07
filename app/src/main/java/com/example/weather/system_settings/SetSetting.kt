@@ -6,11 +6,11 @@ import android.os.Bundle
 import android.widget.*
 import com.example.weather.R
 import com.example.weather.map.MapActivity
-import com.example.weather.companion.MyCompanion
-//import com.example.weather.companion.MyCompanion.Companion.languageState
-//import com.example.weather.companion.MyCompanion.Companion.locationState
-//import com.example.weather.companion.MyCompanion.Companion.setLanguageType
-//import com.example.weather.companion.MyCompanion.Companion.setUnitsType
+import com.example.weather.system.companion.MyCompanion
+//import com.example.weather.system.companion.MyCompanion.Companion.languageState
+//import com.example.weather.system.companion.MyCompanion.Companion.locationState
+//import com.example.weather.system.companion.MyCompanion.Companion.setLanguageType
+//import com.example.weather.system.companion.MyCompanion.Companion.setUnitsType
 import com.example.weather.main_activty.MainActivity
 
 class SetSetting : AppCompatActivity() {

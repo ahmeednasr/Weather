@@ -14,15 +14,16 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weather.databinding.FragmentSearchBinding
-import com.example.weather.localSource.ConcretLocalSource
+import com.example.weather.data_source.localSource.ConcretLocalSource
+import com.example.weather.data_source.search_repo.SearchApiState
+import com.example.weather.data_source.search_repo.SearchRepo
+import com.example.weather.data_source.search_repo.search_remote.SearchApiClient
+import com.example.weather.data_source.search_repo.search_result_pojo.CityPojo
 import com.example.weather.map.CityAdapter
 import com.example.weather.map.MapViewModel
 import com.example.weather.map.MapViewModelFactory
 import com.example.weather.search.SaveCityListener
-import com.example.weather.map.repo.ApiState
-import com.example.weather.map.repo.Repo
-import com.example.weather.map.repo.search_remote.SearchApiClient
-import com.example.weather.map.repo.search_result_pojo.CityPojo
+
 import kotlinx.coroutines.launch
 
 class SearchView : Fragment(), SaveCityListener {
@@ -47,7 +48,7 @@ class SearchView : Fragment(), SaveCityListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         searchFactory = MapViewModelFactory(
-            Repo.getInstance(
+            SearchRepo.getInstance(
                 SearchApiClient.getInstance(),
                 ConcretLocalSource.getInstance(requireContext())
             )
@@ -71,13 +72,13 @@ class SearchView : Fragment(), SaveCityListener {
         lifecycleScope.launch {
             mapViewModel.responseSearchFlow.collect { result ->
                 when (result) {
-                    is ApiState.Success -> {
+                    is SearchApiState.Success -> {
                         binding.searchLoading.visibility = View.GONE
                         binding.cityRecyclerView.visibility = View.VISIBLE
                         Log.i("MySearch", result.data.toString())
                         cityAdapter.data = result.data
                     }
-                    is ApiState.Failure -> {
+                    is SearchApiState.Failure -> {
                         binding.searchLoading.visibility = View.GONE
                         binding.cityRecyclerView.visibility = View.INVISIBLE
                         Log.i("MySearch", result.msg.toString())

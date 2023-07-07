@@ -37,6 +37,6 @@
     <string name="speed">السرعه</string>
     <string name="m_s"> م/ث </string>
     <string name="mil_h">ميل/س</string>
-    <string name="m">م</string>
+    <string name="m">كم</string>
     <string name="hpa">هـ.ب</string>
 </resources>

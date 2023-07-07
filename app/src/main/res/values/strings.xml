@@ -38,6 +38,6 @@
     <string name="speed">speed</string>
     <string name="m_s">m/s</string>
     <string name="mil_h">mil/h</string>
-    <string name="m">m</string>
+    <string name="m">km</string>
     <string name="hpa">hpa</string>
 </resources>
