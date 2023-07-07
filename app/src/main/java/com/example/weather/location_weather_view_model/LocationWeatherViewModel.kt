@@ -42,22 +42,6 @@ class LocationWeatherViewModel(private var repo: LocationWeatherRepoInterface) :
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun getTimeByZone(timeZone: String) {
-        val zoneId = ZoneId.of(timeZone).rules.getOffset(Instant.now())
-        val instant = Instant.now().atZone(zoneId).toInstant()
-        Log.i("TIME", "zone= $zoneId")
-        Log.i("TIME", "timeStamp= ${instant.epochSecond}")
-        viewModelScope.launch {
-
-            while (true) {
-
-                //_postTimeStateFlow.value = unixTimestamp
-                delay(1000)
-            }
-        }
-    }
-
     fun getCurrentTime(timezoneOffset: Int) {
 
         viewModelScope.launch {

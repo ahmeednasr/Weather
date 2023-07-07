@@ -26,7 +26,6 @@
     <string name="wind">Wind</string>
     <string name="humidity">humidity</string>
     <string name="map">map</string>
-    <string name="title_activity_maps">MapsActivity</string>
     <string name="add">add</string>
     <string name="add_location">add Location</string>
     <string name="search">search</string>
@@ -40,4 +39,9 @@
     <string name="mil_h">mil/h</string>
     <string name="m">km</string>
     <string name="hpa">hpa</string>
+    <string name="cancel">cancel</string>
+    <string name="from">from</string>
+    <string name="to">to</string>
+    <string name="alarm">Alarm</string>
+    <string name="notification">Notification</string>
 </resources>

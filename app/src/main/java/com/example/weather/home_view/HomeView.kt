@@ -123,7 +123,6 @@ class HomeView : Fragment() {
                         val current = result.data.current
                         homeViewModel.getCurrentTime(result.data.timezone_offset)
                         getTime()
-
                         geocoder = Geocoder(requireContext(), Locale.getDefault())
                         val addressList =
                             geocoder.getFromLocation(result.data.lat, result.data.lon, 1)

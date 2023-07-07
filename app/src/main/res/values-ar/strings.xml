@@ -25,7 +25,7 @@
     <string name="humidity">الرطوبة</string>
     <string name="pressure">الضغط</string>
     <string name="map">خريطه</string>
-    <string name="add">اضافه</string>
+    <string name="add">إضافه</string>
     <string name="add_location">اضافه موقع</string>
     <string name="search">البحث</string>
     <string name="location">الموقع</string>
@@ -39,4 +39,10 @@
     <string name="mil_h">ميل/س</string>
     <string name="m">كم</string>
     <string name="hpa">هـ.ب</string>
+    <string name="cancel">إلغاء</string>
+    <string name="from">من</string>
+    <string name="to">إلى</string>
+    <string name="alarm">تنبيه</string>
+    <string name="notification">اشعارات</string>
+
 </resources>
