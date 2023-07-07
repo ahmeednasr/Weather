@@ -1,4 +1,4 @@
-package com.example.weather.main_activty
+package com.example.weather.main_activity
 
 sealed class ConnectionState {
     class Success(val data: String) : ConnectionState()

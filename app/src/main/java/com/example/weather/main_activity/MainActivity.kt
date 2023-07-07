@@ -1,4 +1,4 @@
-package com.example.weather.main_activty
+package com.example.weather.main_activity
 
 import android.content.Context
 import android.content.ContextWrapper
@@ -15,13 +15,11 @@ import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -92,9 +90,8 @@ class MainActivity : AppCompatActivity() {
         }
         mainFactory = MainFactory()
         mainViewModel = ViewModelProvider(this, mainFactory)[MainViewModel::class.java]
-        getConnection()
-
-
+        //getConnection()
+        registerNetworkCallback()
         lifecycleScope.launch {
 
             mainViewModel.connectionFlow.collect { result ->
@@ -130,33 +127,61 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
-    fun getConnection() {
+    private fun registerNetworkCallback() {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        val networkCallback = object : ConnectivityManager.NetworkCallback() {
+            // network is available for use
+            override fun onAvailable(network: Network) {
+                super.onAvailable(network)
+                Log.i("NETWORK", "onAvailable")
+                mainViewModel.setConnectionState(ConnectionState.Success("connect"))
+            }
+
+            // lost network connection
+            override fun onLost(network: Network) {
+                super.onLost(network)
+                Log.i("NETWORK", "onLost")
+                mainViewModel.setConnectionState(ConnectionState.Lose("lose"))
+            }
+        }
+
         val networkRequest = NetworkRequest.Builder()
             .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
             .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
             .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
             .build()
 
-        val connectivityManager =
-            getSystemService(ConnectivityManager::class.java) as ConnectivityManager
-        connectivityManager.requestNetwork(networkRequest, networkCallback)
+        connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
     }
-
-    private val networkCallback = object : ConnectivityManager.NetworkCallback() {
-        // network is available for use
-        override fun onAvailable(network: Network) {
-            super.onAvailable(network)
-            Log.i("NETWORK", "onAvailable")
-            mainViewModel.setConnectionState(ConnectionState.Success("connect"))
-        }
-
-        // lost network connection
-        override fun onLost(network: Network) {
-            super.onLost(network)
-            Log.i("NETWORK", "onLost")
-            mainViewModel.setConnectionState(ConnectionState.Lose("lose"))
-
-        }
-    }
+//
+//    @RequiresApi(Build.VERSION_CODES.M)
+//    fun getConnection() {
+//        val networkRequest = NetworkRequest.Builder()
+//            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+//            .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+//            .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
+//            .build()
+//
+//        val connectivityManager =
+//            getSystemService(ConnectivityManager::class.java) as ConnectivityManager
+//        connectivityManager.requestNetwork(networkRequest, networkCallback)
+//    }
+//
+//    private val networkCallback = object : ConnectivityManager.NetworkCallback() {
+//        // network is available for use
+//        override fun onAvailable(network: Network) {
+//            super.onAvailable(network)
+//            Log.i("NETWORK", "onAvailable")
+//            mainViewModel.setConnectionState(ConnectionState.Success("connect"))
+//        }
+//
+//        // lost network connection
+//        override fun onLost(network: Network) {
+//            super.onLost(network)
+//            Log.i("NETWORK", "onLost")
+//            mainViewModel.setConnectionState(ConnectionState.Lose("lose"))
+//
+//        }
+//    }
 }

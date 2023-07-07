@@ -11,7 +11,7 @@ import com.example.weather.system.companion.MyCompanion
 //import com.example.weather.system.companion.MyCompanion.Companion.locationState
 //import com.example.weather.system.companion.MyCompanion.Companion.setLanguageType
 //import com.example.weather.system.companion.MyCompanion.Companion.setUnitsType
-import com.example.weather.main_activty.MainActivity
+import com.example.weather.main_activity.MainActivity
 
 class SetSetting : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

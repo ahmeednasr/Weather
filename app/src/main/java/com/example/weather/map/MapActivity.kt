@@ -8,7 +8,7 @@ import android.widget.Button
 import android.widget.Toast
 import com.example.weather.R
 import com.example.weather.system.companion.MyCompanion
-import com.example.weather.main_activty.MainActivity
+import com.example.weather.main_activity.MainActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView

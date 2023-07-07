@@ -1,18 +1,12 @@
 package com.example.weather
 
-import android.content.Context
-import android.content.ContextWrapper
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.example.weather.system.companion.ContextUtils
-import com.example.weather.system.companion.MyCompanion
-import com.example.weather.main_activty.MainActivity
-import com.example.weather.system_settings.SetSetting
+import com.example.weather.main_activity.MainActivity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.*
 
 
 class Splash : AppCompatActivity() {
