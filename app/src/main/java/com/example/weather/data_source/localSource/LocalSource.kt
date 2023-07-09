@@ -1,5 +1,6 @@
 package com.example.weather.data_source.localSource
 
+import com.example.weather.data_source.location_weather_repo.location_weather_pojo.LocationWeatherResponse
 import com.example.weather.data_source.search_repo.search_result_pojo.CityPojo
 
 interface LocalSource {
@@ -10,5 +11,7 @@ interface LocalSource {
     fun getMapDetails(): Pair<Double, Double>
     fun getSpeedUnit(): String
     fun getTempUnit(): String
+    fun cacheResponse(response: LocationWeatherResponse)
+    fun getCachedResponse(): LocationWeatherResponse
 
 }

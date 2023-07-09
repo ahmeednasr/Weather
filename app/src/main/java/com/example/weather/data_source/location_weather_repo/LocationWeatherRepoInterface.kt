@@ -8,9 +8,11 @@ interface LocationWeatherRepoInterface {
         latitude: Double,
         longitude: Double,
         language: String,
-    ): Flow<com.example.weather.data_source.location_weather_repo.location_weather_pojo.LocationWeatherResponse>
+    ): Flow<LocationWeatherResponse>
     fun getLocationType(): String
     fun getMapDetails(): Pair<Double, Double>
     fun getSpeedUnit(): String
     fun getTempUnit(): String
+    fun cacheResponse(response: LocationWeatherResponse)
+    fun getCachedResponse(): LocationWeatherResponse
 }

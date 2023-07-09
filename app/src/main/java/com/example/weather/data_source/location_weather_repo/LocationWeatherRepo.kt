@@ -21,14 +21,14 @@ class LocationWeatherRepo private constructor(
         ): LocationWeatherRepo {
             return INSTANCE
                 ?: synchronized(this) {
-                val instance =
-                   LocationWeatherRepo(
-                        remoteSource,
-                        localSource
-                    )
-                INSTANCE = instance
-                instance
-            }
+                    val instance =
+                        LocationWeatherRepo(
+                            remoteSource,
+                            localSource
+                        )
+                    INSTANCE = instance
+                    instance
+                }
         }
     }
 
@@ -53,4 +53,11 @@ class LocationWeatherRepo private constructor(
     override fun getSpeedUnit(): String = localSource.getSpeedUnit()
 
     override fun getTempUnit(): String = localSource.getTempUnit()
+    override fun cacheResponse(response: LocationWeatherResponse) {
+        localSource.cacheResponse(response)
+    }
+
+    override fun getCachedResponse(): LocationWeatherResponse {
+        return localSource.getCachedResponse()
+    }
 }

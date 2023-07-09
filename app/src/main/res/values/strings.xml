@@ -44,4 +44,9 @@
     <string name="to">to</string>
     <string name="alarm">Alarm</string>
     <string name="notification">Notification</string>
+    <string name="not_found">not Found</string>
+    <string name="delete">Delete</string>
+
+    <string name="rm_msg">Do you want to remove this city from your favourites?</string>
+
 </resources>

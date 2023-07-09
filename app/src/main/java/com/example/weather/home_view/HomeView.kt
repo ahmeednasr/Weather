@@ -7,6 +7,10 @@ import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
@@ -19,6 +23,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -41,6 +46,8 @@ import com.example.weather.home.location_weather_view_model.DailyAdapter
 import com.example.weather.home.location_weather_view_model.HourlyAdapter
 import com.example.weather.home.location_weather_view_model.LocationWeatherFactory
 import com.example.weather.home.location_weather_view_model.LocationWeatherViewModel
+import com.example.weather.main_activity.ConnectionState
+import com.google.android.material.snackbar.Snackbar
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -60,6 +67,7 @@ class HomeView : Fragment() {
     var long: Double = 39.85
     lateinit var speedUnit: String
     lateinit var tempUnit: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -70,7 +78,6 @@ class HomeView : Fragment() {
     ): View? {
 
         myContext = inflater.context
-
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         // Inflate the layout for this fragment
         return binding.root
@@ -126,7 +133,6 @@ class HomeView : Fragment() {
                         geocoder = Geocoder(requireContext(), Locale.getDefault())
                         val addressList =
                             geocoder.getFromLocation(result.data.lat, result.data.lon, 1)
-                        Log.i("err", "address name: $addressList")
 
                         if (addressList != null && addressList.isNotEmpty()) {
                             var address = addressList[0]
@@ -175,7 +181,7 @@ class HomeView : Fragment() {
 
                     }
                     else -> {
-                        binding.loading.visibility = View.VISIBLE
+                        binding.loading.visibility = View.GONE
                         binding.pageLayout.visibility = View.GONE
                         Toast.makeText(context, "Error loading", Toast.LENGTH_SHORT)
                             .show()
@@ -322,5 +328,6 @@ class HomeView : Fragment() {
             }
         }
     }
+
 
 }

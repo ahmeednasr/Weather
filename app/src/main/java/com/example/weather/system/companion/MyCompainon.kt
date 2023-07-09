@@ -14,6 +14,7 @@ class MyCompanion {
         const val LOCATION_KEY = "LOCATION"
         const val MAP = "MAP"
         const val GPS = "GPS"
+        const val CACHED_LOCATION = "CACHED_LOCATION"
 
         const val LATITUDE = "LAT"
         const val LONGITUDE = "LONG"
@@ -43,12 +44,14 @@ class MyCompanion {
                 MILES_PER_HOUR -> speed * 2.23694
                 else -> speed
             }
-            return  String.format("%.2f", convertedValue)
+            return String.format("%.2f", convertedValue)
         }
 
         const val FAV_FRAGMENT = "FAV_FRAGMENT"
         const val SETTINGS_FRAGMENT = "SETTINGS_FRAGMENT"
-        const val MAP_FRAGMENT="MAP_FRAGMENT"
-        val CITY_DEFAULT= CityPojo("",0.0,0.0,"","")
+        const val MAP_FRAGMENT = "MAP_FRAGMENT"
+        const val NOTIFICATION="NOTIFICATION"
+        const val ALARM="ALARM"
+        val CITY_DEFAULT = CityPojo("", 0.0, 0.0, "", "")
     }
 }

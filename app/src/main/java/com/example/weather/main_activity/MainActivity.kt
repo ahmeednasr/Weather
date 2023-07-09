@@ -40,15 +40,12 @@ class MainActivity : AppCompatActivity() {
     lateinit var drawerLayout: DrawerLayout
     lateinit var mainViewModel: MainViewModel
     lateinit var rootView: View
-    lateinit var message: String
-    var duration: Int = -1
     override fun attachBaseContext(newBase: Context) {
         val localeUpdatedContext: ContextWrapper =
             ContextUtils.updateLocale(newBase, Locale.getDefault())
         super.attachBaseContext(localeUpdatedContext)
     }
 
-    // @RequiresApi(Build.VERSION_CODES.M)
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,8 +55,6 @@ class MainActivity : AppCompatActivity() {
         drawerLayout = findViewById(R.id.drawer_layout)
         navigationView = findViewById(R.id.nav_view)
         rootView = findViewById(android.R.id.content)
-        message = "lose Network"
-        duration = Snackbar.LENGTH_SHORT
 
         var actionBar = supportActionBar
         if (actionBar != null) {
@@ -90,8 +85,8 @@ class MainActivity : AppCompatActivity() {
         }
         mainFactory = MainFactory()
         mainViewModel = ViewModelProvider(this, mainFactory)[MainViewModel::class.java]
-        //getConnection()
-        registerNetworkCallback()
+
+        getConnection()
         lifecycleScope.launch {
 
             mainViewModel.connectionFlow.collect { result ->
@@ -100,13 +95,17 @@ class MainActivity : AppCompatActivity() {
                         supportFragmentManager.beginTransaction()
                             .show(navHostFragment)
                             .commit()
-                        Snackbar.make(rootView, "get network", duration).show()
+                    }
+                    is ConnectionState.Lose -> {
+//                        supportFragmentManager.beginTransaction()
+//                            .hide(navHostFragment)
+//                            .commit()
+                        Snackbar.make(
+                            rootView, "lose Network", Snackbar.LENGTH_SHORT
+                        ).show()
                     }
                     else -> {
-                        supportFragmentManager.beginTransaction()
-                            .hide(navHostFragment)
-                            .commit()
-                        Snackbar.make(rootView, message, duration).show()
+
                     }
                 }
             }
@@ -127,22 +126,26 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun registerNetworkCallback() {
-        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    private fun getConnection() {
+        val connectivityManager =
+            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
         val networkCallback = object : ConnectivityManager.NetworkCallback() {
-            // network is available for use
             override fun onAvailable(network: Network) {
                 super.onAvailable(network)
                 Log.i("NETWORK", "onAvailable")
                 mainViewModel.setConnectionState(ConnectionState.Success("connect"))
+
             }
 
-            // lost network connection
             override fun onLost(network: Network) {
                 super.onLost(network)
                 Log.i("NETWORK", "onLost")
                 mainViewModel.setConnectionState(ConnectionState.Lose("lose"))
+
+                Snackbar.make(
+                    rootView, "lose Network", Snackbar.LENGTH_SHORT
+                ).show()
             }
         }
 
@@ -154,34 +157,5 @@ class MainActivity : AppCompatActivity() {
 
         connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
     }
-//
-//    @RequiresApi(Build.VERSION_CODES.M)
-//    fun getConnection() {
-//        val networkRequest = NetworkRequest.Builder()
-//            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-//            .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-//            .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
-//            .build()
-//
-//        val connectivityManager =
-//            getSystemService(ConnectivityManager::class.java) as ConnectivityManager
-//        connectivityManager.requestNetwork(networkRequest, networkCallback)
-//    }
-//
-//    private val networkCallback = object : ConnectivityManager.NetworkCallback() {
-//        // network is available for use
-//        override fun onAvailable(network: Network) {
-//            super.onAvailable(network)
-//            Log.i("NETWORK", "onAvailable")
-//            mainViewModel.setConnectionState(ConnectionState.Success("connect"))
-//        }
-//
-//        // lost network connection
-//        override fun onLost(network: Network) {
-//            super.onLost(network)
-//            Log.i("NETWORK", "onLost")
-//            mainViewModel.setConnectionState(ConnectionState.Lose("lose"))
-//
-//        }
-//    }
+
 }

@@ -26,9 +26,13 @@
     </fragment>
     <fragment
         android:id="@+id/weatherAlertsFragment"
-        android:name="com.example.weather.WeatherAlertsFragment"
+        android:name="com.example.weather.alerts_view.WeatherAlertsFragment"
         android:label="fragment_weather_alerts"
-        tools:layout="@layout/fragment_weather_alerts" />
+        tools:layout="@layout/fragment_weather_alerts" >
+        <action
+            android:id="@+id/action_weatherAlertsFragment_to_myMapFragment"
+            app:destination="@id/myMapFragment" />
+    </fragment>
     <fragment
         android:id="@+id/myMapFragment"
         android:name="com.example.weather.map.MapView"

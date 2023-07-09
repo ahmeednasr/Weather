@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weather.data_source.location_weather_repo.LocationWeatherApiState
 import com.example.weather.data_source.location_weather_repo.LocationWeatherRepoInterface
+import com.example.weather.data_source.location_weather_repo.location_weather_pojo.LocationWeatherResponse
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -89,6 +90,8 @@ class LocationWeatherViewModel(private var repo: LocationWeatherRepoInterface) :
     fun getMapDetails(): Pair<Double, Double> = repo.getMapDetails()
     fun getSpeedUnit(): String = repo.getSpeedUnit()
     fun getTempUnit(): String = repo.getTempUnit()
+    fun getCachedResponse(): LocationWeatherResponse = repo.getCachedResponse()
+    fun cacheResponse(response: LocationWeatherResponse) = repo.cacheResponse(response)
 
     override fun onCleared() {
         super.onCleared()

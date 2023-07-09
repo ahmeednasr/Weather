@@ -10,11 +10,13 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.weather.R
 import com.example.weather.system.companion.MyCompanion
 import com.example.weather.databinding.FragmentFavoriteBinding
 import com.example.weather.data_source.favorite_repo.FavoriteRepo
 import com.example.weather.data_source.localSource.ConcretLocalSource
 import com.example.weather.data_source.search_repo.search_result_pojo.CityPojo
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
 class FavoriteView : Fragment(), OnCityClickListener {
@@ -33,10 +35,8 @@ class FavoriteView : Fragment(), OnCityClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
 
         binding = FragmentFavoriteBinding.inflate(inflater, container, false)
-        // Inflate the layout for this fragment
         return binding.root
     }
 
@@ -76,7 +76,17 @@ class FavoriteView : Fragment(), OnCityClickListener {
     }
 
     override fun removeCity(city: CityPojo) {
-        viewModel.deleteCity(city)
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(resources.getString(R.string.app_name))
+            .setMessage(resources.getString(R.string.rm_msg))
+            .setNeutralButton(resources.getString(R.string.cancel)) { dialog, which ->
+                // Respond to neutral button press
+            }
+            .setNegativeButton(resources.getString(R.string.delete)) { dialog, which ->
+                // Respond to positive button press
+                viewModel.deleteCity(city)
+            }
+            .show()
     }
 
     override fun viewCity(city: CityPojo) {

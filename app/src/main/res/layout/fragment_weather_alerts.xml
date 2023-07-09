@@ -5,7 +5,7 @@
     android:id="@+id/weatherAlertsFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".WeatherAlertsFragment">
+    tools:context=".alerts_view.WeatherAlertsFragment">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_alert_floating"

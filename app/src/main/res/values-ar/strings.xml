@@ -44,5 +44,7 @@
     <string name="to">إلى</string>
     <string name="alarm">تنبيه</string>
     <string name="notification">اشعارات</string>
-
+    <string name="not_found">لا يوجد</string>
+    <string name="delete">حذف</string>
+    <string name="rm_msg">هل تريد حذف هذه المدينه من المفضله؟</string>
 </resources>

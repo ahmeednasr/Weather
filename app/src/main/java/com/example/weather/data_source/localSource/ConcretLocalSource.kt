@@ -2,9 +2,10 @@ package com.example.weather.data_source.localSource
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
+import com.example.weather.data_source.location_weather_repo.location_weather_pojo.LocationWeatherResponse
 import com.example.weather.system.companion.MyCompanion
 import com.example.weather.data_source.search_repo.search_result_pojo.CityPojo
+import com.google.gson.Gson
 
 class ConcretLocalSource(private val context: Context) : LocalSource {
     private var dao: CityDao
@@ -14,7 +15,6 @@ class ConcretLocalSource(private val context: Context) : LocalSource {
     init {
         var db = CityDB.getInstance(context)
         dao = db.getCityDao()
-        Log.i("TAG", "getallstored in Constractor localsource");
         sharedPreferences = context.getSharedPreferences("PREFS", 0)
         editor = sharedPreferences.edit()
     }
@@ -101,5 +101,15 @@ class ConcretLocalSource(private val context: Context) : LocalSource {
             }
         }
         return tempUnit
+    }
+
+    override fun cacheResponse(response: LocationWeatherResponse) {
+        val json = Gson().toJson(response)
+        editor.putString(MyCompanion.CACHED_LOCATION, json).apply()
+    }
+
+    override fun getCachedResponse(): LocationWeatherResponse {
+        val json: String = sharedPreferences.getString(MyCompanion.CACHED_LOCATION, null).toString()
+        return Gson().fromJson(json, LocationWeatherResponse::class.java)
     }
 }
