@@ -75,7 +75,6 @@ class SettingsFragment : Fragment() {
                     editor.apply()
                 }
                 R.id.map -> {
-                    //set direction to map and in map send flag from setting to map to handel it
                     val action =
                         SettingsFragmentDirections.actionSettingsFragmentToMyMapFragment(MyCompanion.SETTINGS_FRAGMENT)
                     controller.navigate(action)

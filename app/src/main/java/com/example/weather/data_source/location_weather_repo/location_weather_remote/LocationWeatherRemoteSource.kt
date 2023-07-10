@@ -7,5 +7,5 @@ interface LocationWeatherRemoteSource {
         latitude: Double,
         longitude: Double,
         language: String,
-    ): com.example.weather.data_source.location_weather_repo.location_weather_pojo.LocationWeatherResponse
+    ): LocationWeatherResponse
 }

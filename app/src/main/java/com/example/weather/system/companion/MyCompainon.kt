@@ -4,8 +4,11 @@ import com.example.weather.data_source.search_repo.search_result_pojo.CityPojo
 
 
 class MyCompanion {
+
     companion object {
+        const val APP_CHANEL = "APP_CHANEL"
         const val API_Key = "a117466978c46167246dc8d6a700cce6"
+
         fun getIconLink(id: String): String {
             return "https://openweathermap.org/img/wn/$id@2x.png"
         }
@@ -27,6 +30,7 @@ class MyCompanion {
         const val K: String = "°K"
         const val C: String = "°C"
         const val F: String = "°F"
+
         fun getTemp(unit: String, K: Double): String {
             val convertedValue = when (unit) {
                 C -> K - 273.15
@@ -50,8 +54,10 @@ class MyCompanion {
         const val FAV_FRAGMENT = "FAV_FRAGMENT"
         const val SETTINGS_FRAGMENT = "SETTINGS_FRAGMENT"
         const val MAP_FRAGMENT = "MAP_FRAGMENT"
-        const val NOTIFICATION="NOTIFICATION"
-        const val ALARM="ALARM"
+        const val ALERTS_FRAGMENT = "ALERTS_FRAGMENT"
+
+        const val NOTIFICATION = "NOTIFICATION"
+        const val ALARM = "ALARM"
         val CITY_DEFAULT = CityPojo("", 0.0, 0.0, "", "")
     }
 }

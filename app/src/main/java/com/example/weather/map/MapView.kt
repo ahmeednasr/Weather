@@ -144,6 +144,14 @@ class MapView : Fragment(), OnCitySelected, OnMapReadyCallback, GoogleMap.OnMapC
                         controller.popBackStack()
                     }
                 }
+                MyCompanion.ALERTS_FRAGMENT -> {
+                    parentFragmentManager.setFragmentResult(MyCompanion.MAP, Bundle().apply {
+                        putDouble("latitude", latitude!!)
+                        putDouble("longitude", longitude!!)
+                    })
+
+                    controller.navigateUp()
+                }
             }
         }
 
@@ -163,7 +171,9 @@ class MapView : Fragment(), OnCitySelected, OnMapReadyCallback, GoogleMap.OnMapC
         mMap.setOnMapClickListener(this)
 
         // Add a marker in Sydney and move the camera
-        val mecca = LatLng(21.38, 39.85)
+        latitude = 21.38
+        longitude = 39.85
+        val mecca = LatLng(latitude!!, longitude!!)
         mMap.addMarker(MarkerOptions().position(mecca).title("Mecca"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(mecca))
     }

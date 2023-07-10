@@ -13,7 +13,7 @@ class ConcretLocalSource(private val context: Context) : LocalSource {
     private var editor: SharedPreferences.Editor
 
     init {
-        var db = CityDB.getInstance(context)
+        val db = CityDB.getInstance(context)
         dao = db.getCityDao()
         sharedPreferences = context.getSharedPreferences("PREFS", 0)
         editor = sharedPreferences.edit()

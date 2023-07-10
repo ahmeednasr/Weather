@@ -10,10 +10,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.work.WorkRequest
 import com.example.weather.R
 import com.example.weather.databinding.AlertPopupBinding
 import com.example.weather.databinding.FragmentWeatherAlertsBinding
+import com.example.weather.settings.SettingsFragmentDirections
 import com.example.weather.system.companion.MyCompanion
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.text.SimpleDateFormat
@@ -24,8 +31,13 @@ class WeatherAlertsFragment : Fragment() {
     private lateinit var binding: FragmentWeatherAlertsBinding
     var fromTime: Long = 0L
     var toTime: Long = 0L
+    var latitude: Double? = null
+    var longitude: Double? = null
     lateinit var ctx: Context
     var notifyType = MyCompanion.ALARM
+    lateinit var controller: NavController
+    lateinit var dialog: AlertDialog
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -43,8 +55,19 @@ class WeatherAlertsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        controller = Navigation.findNavController(view)
 
         binding.addAlertFloating.setOnClickListener {
+            val action =
+                WeatherAlertsFragmentDirections.actionWeatherAlertsFragmentToMyMapFragment(
+                    MyCompanion.ALERTS_FRAGMENT
+                )
+            controller.navigate(action)
+        }
+        setFragmentResultListener(MyCompanion.MAP) { _, result ->
+            latitude = result.getDouble("latitude")
+            longitude = result.getDouble("longitude")
+            Log.i("MAP", "lat: $latitude , long: $longitude")
             showDialog()
         }
     }
@@ -81,10 +104,10 @@ class WeatherAlertsFragment : Fragment() {
             getTimeStamp { it ->
                 if (timeComparison(fromTime, it)) {
                     toTime = it
-
                     Log.d("TAG", "to timestamp: $toTime")
                     popUpBinding.dateTo.text = dateFormat.format(it)
                     popUpBinding.hourTo.text = timeFormat.format(it)
+
                 } else {
                     Toast.makeText(
                         ctx,
@@ -106,9 +129,16 @@ class WeatherAlertsFragment : Fragment() {
                 }
             }
         }
-        binding.addAlertFloating.setOnClickListener {
-            if (timeComparison(fromTime, toTime)) {
+        popUpBinding.addBtn.setOnClickListener {
 
+            if (timeComparison(fromTime, toTime)) {
+                Toast.makeText(
+                    ctx,
+                    "f: $fromTime t: $toTime lat: $latitude long: $longitude",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+                dialog.dismiss()
             } else {
                 Toast.makeText(
                     ctx,
@@ -118,15 +148,15 @@ class WeatherAlertsFragment : Fragment() {
                     .show()
             }
         }
-        MaterialAlertDialogBuilder(ctx)
+        dialog = MaterialAlertDialogBuilder(ctx)
             .setView(popUpBinding.root)
             .setBackground(
                 ContextCompat.getDrawable(
                     ctx,
                     R.drawable.action_bar_drawable
                 )
-            )
-            .show()
+            ).create()
+        dialog.show()
     }
 
     private fun getTimeStamp(setTime: (timestamp: Long) -> Unit) {
@@ -137,7 +167,7 @@ class WeatherAlertsFragment : Fragment() {
         val hour = calendar.get(Calendar.HOUR_OF_DAY)
         val minute = calendar.get(Calendar.MINUTE)
         val minTime = calendar.timeInMillis
-        var td = 0L
+        var td: Long
         val dateSetListener =
             DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
                 // Do something with the selected date

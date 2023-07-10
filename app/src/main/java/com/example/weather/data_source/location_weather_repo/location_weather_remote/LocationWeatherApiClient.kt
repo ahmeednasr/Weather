@@ -7,28 +7,28 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class LocationWeatherApiClient :
-    com.example.weather.data_source.location_weather_repo.location_weather_remote.LocationWeatherRemoteSource {
+    LocationWeatherRemoteSource {
     init {
         val gson: Gson = Gson()
-        com.example.weather.data_source.location_weather_repo.location_weather_remote.LocationWeatherApiClient.Companion.retrofit = Retrofit.Builder()
+        retrofit = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .baseUrl(com.example.weather.data_source.location_weather_repo.location_weather_remote.LocationWeatherApiClient.Companion.BASE_URL)
+            .baseUrl(BASE_URL)
             .build()
-            .create(com.example.weather.data_source.location_weather_repo.location_weather_remote.LocationWeatherApiService::class.java)
+            .create(LocationWeatherApiService::class.java)
     }
 
     companion object {
         private const val BASE_URL = "https://api.openweathermap.org/data/2.5/"
-        private lateinit var retrofit: com.example.weather.data_source.location_weather_repo.location_weather_remote.LocationWeatherApiService
-        private var apiClient: com.example.weather.data_source.location_weather_repo.location_weather_remote.LocationWeatherApiClient? = null
-        fun getInstance(): com.example.weather.data_source.location_weather_repo.location_weather_remote.LocationWeatherApiClient {
-            return com.example.weather.data_source.location_weather_repo.location_weather_remote.LocationWeatherApiClient.Companion.apiClient
+        private lateinit var retrofit: LocationWeatherApiService
+        private var apiClient: LocationWeatherApiClient? = null
+        fun getInstance(): LocationWeatherApiClient {
+            return apiClient
                 ?: synchronized(this) {
-                val tmp =
-                    com.example.weather.data_source.location_weather_repo.location_weather_remote.LocationWeatherApiClient()
-                com.example.weather.data_source.location_weather_repo.location_weather_remote.LocationWeatherApiClient.Companion.apiClient = tmp
-                tmp
-            }
+                    val tmp =
+                        LocationWeatherApiClient()
+                    apiClient = tmp
+                    tmp
+                }
         }
     }
 
@@ -36,10 +36,10 @@ class LocationWeatherApiClient :
         latitude: Double,
         longitude: Double,
         language: String,
-    ): com.example.weather.data_source.location_weather_repo.location_weather_pojo.LocationWeatherResponse {
-        val response=
-            com.example.weather.data_source.location_weather_repo.location_weather_remote.LocationWeatherApiClient.Companion.retrofit.getCurrentLocationWeather(latitude, longitude, language)
-        Log.d("errMy",response.toString())
+    ): LocationWeatherResponse {
+        val response =
+            retrofit.getCurrentLocationWeather(latitude, longitude, language)
+        Log.d("errMy", response.toString())
         return response
     }
 }
