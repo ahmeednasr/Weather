@@ -34,6 +34,31 @@ class LocationWeatherViewModel(private var repo: LocationWeatherRepoInterface) :
     init {
     }
 
+    fun getCurrentLocationResponse(
+        latitude: Double, longitude: Double, language: String
+    ) {
+        _postStateFlow.value =
+            LocationWeatherApiState.Loading
+        viewModelScope.launch {
+            try {
+                repo.getCurrentLocationResponse(latitude, longitude, language)
+                    .collect { data ->
+                        _postStateFlow.value =
+                            LocationWeatherApiState.Success(
+                                data
+                            )
+                    }
+
+            } catch (e: Exception) {
+                Log.d("errMy", e.toString())
+                _postStateFlow.value =
+                    LocationWeatherApiState.Failure(
+                        e
+                    )
+            }
+
+        }
+    }
     fun getTime() {
         viewModelScope.launch {
             while (true) {
@@ -60,31 +85,6 @@ class LocationWeatherViewModel(private var repo: LocationWeatherRepoInterface) :
     }
 
 
-    fun getCurrentLocationResponse(
-        latitude: Double, longitude: Double, language: String
-    ) {
-        _postStateFlow.value =
-            LocationWeatherApiState.Loading
-        viewModelScope.launch {
-            try {
-                repo.getCurrentLocationResponse(latitude, longitude, language)
-                    .collect { data ->
-                        _postStateFlow.value =
-                            LocationWeatherApiState.Success(
-                                data
-                            )
-                    }
-
-            } catch (e: Exception) {
-                Log.d("errMy", e.toString())
-                _postStateFlow.value =
-                    LocationWeatherApiState.Failure(
-                        e
-                    )
-            }
-
-        }
-    }
 
     fun getLocationType(): String = repo.getLocationType()
     fun getMapDetails(): Pair<Double, Double> = repo.getMapDetails()

@@ -57,6 +57,10 @@ class FavoriteView : Fragment(), OnCityClickListener {
             LinearLayoutManager(context, RecyclerView.VERTICAL, false)
 
         //observeLiveData
+//        viewModel.getCities().observe(this) {
+//            favAdapter.submitList(it)
+//        }
+
         viewModel.citiesList.observe(this) {
             favAdapter.submitList(it)
         }

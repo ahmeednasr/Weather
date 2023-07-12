@@ -8,7 +8,9 @@ interface LocalSource {
     suspend fun insertCity(city: CityPojo)
     suspend fun removeCity(city: CityPojo)
     fun getLocationType(): String
+    fun setLocationType(type: String)
     fun getMapDetails(): Pair<Double, Double>
+    fun setMapDetails(lat: Double, long: Double)
     fun getSpeedUnit(): String
     fun getTempUnit(): String
     fun cacheResponse(response: LocationWeatherResponse)

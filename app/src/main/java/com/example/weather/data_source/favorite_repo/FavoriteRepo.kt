@@ -17,8 +17,6 @@ class FavoriteRepo private constructor(var localSource: LocalSource) : FavoriteR
 
     override suspend fun getSavedCities(): List<CityPojo> = localSource.getLocalCities()
     override suspend fun removeCity(city: CityPojo) = localSource.removeCity(city)
-    override suspend fun insertCity(city: CityPojo) {
-        localSource.insertCity(city)
-    }
+    override suspend fun insertCity(city: CityPojo) = localSource.insertCity(city)
 
 }

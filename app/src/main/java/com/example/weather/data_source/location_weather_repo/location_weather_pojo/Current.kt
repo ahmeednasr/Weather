@@ -12,7 +12,7 @@ data class Current(
     var temp: Double,
     var uvi: Double,
     var visibility: Int,
-    var weather: List<com.example.weather.data_source.location_weather_repo.location_weather_pojo.Weather>,
+    var weather: List<Weather>,
     var wind_deg: Int,
     var wind_gust: Double,
     var wind_speed: Double

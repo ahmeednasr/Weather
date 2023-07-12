@@ -22,7 +22,6 @@ class FavoriteViewModel(private var repo: FavoriteRepoInterface) : ViewModel() {
         viewModelScope.launch {
             _liveData.postValue(repo.getSavedCities())
         }
-
     }
 
     fun deleteCity(city: CityPojo) {

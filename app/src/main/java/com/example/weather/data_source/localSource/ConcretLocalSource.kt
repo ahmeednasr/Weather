@@ -58,10 +58,18 @@ class ConcretLocalSource(private val context: Context) : LocalSource {
         return locationState
     }
 
+    override fun setLocationType(type: String) {
+        TODO("Not yet implemented")
+    }
+
     override fun getMapDetails(): Pair<Double, Double> {
         val lat = sharedPreferences.getFloat(MyCompanion.LATITUDE, 0.0f).toDouble()
         val long = sharedPreferences.getFloat(MyCompanion.LONGITUDE, 0.0f).toDouble()
         return Pair(lat, long)
+    }
+
+    override fun setMapDetails(lat: Double, long: Double) {
+        TODO("Not yet implemented")
     }
 
 

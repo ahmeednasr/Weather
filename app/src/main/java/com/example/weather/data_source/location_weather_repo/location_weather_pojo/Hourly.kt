@@ -11,7 +11,7 @@ data class Hourly(
     val temp: Double,
     val uvi: Double,
     val visibility: Int,
-    val weather: List<com.example.weather.data_source.location_weather_repo.location_weather_pojo.Weather>,
+    val weather: List<Weather>,
     val wind_deg: Int,
     val wind_gust: Double,
     val wind_speed: Double

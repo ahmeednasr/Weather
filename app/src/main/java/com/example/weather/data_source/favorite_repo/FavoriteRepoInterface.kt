@@ -6,4 +6,5 @@ interface FavoriteRepoInterface {
     suspend fun getSavedCities(): List<CityPojo>
     suspend fun removeCity(city: CityPojo)
     suspend fun insertCity(city: CityPojo)
+
 }

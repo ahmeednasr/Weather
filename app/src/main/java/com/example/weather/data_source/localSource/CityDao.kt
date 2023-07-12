@@ -2,6 +2,7 @@ package com.example.weather.data_source.localSource
 
 import androidx.room.*
 import com.example.weather.data_source.search_repo.search_result_pojo.CityPojo
+
 @Dao
 interface CityDao {
     @Query("SELECT * FROM Cities")
