@@ -14,6 +14,6 @@ interface LocalSource {
     fun getSpeedUnit(): String
     fun getTempUnit(): String
     fun cacheResponse(response: LocationWeatherResponse)
-    fun getCachedResponse(): LocationWeatherResponse
+    fun getCachedResponse(): LocationWeatherResponse?
 
 }

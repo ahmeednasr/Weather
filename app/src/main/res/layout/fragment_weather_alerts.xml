@@ -5,7 +5,7 @@
     android:id="@+id/weatherAlertsFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".alerts_view.WeatherAlertsFragment">
+    tools:context=".views.alerts_view.WeatherAlertsFragment">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_alert_floating"
@@ -22,4 +22,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:maxImageSize="40dp"
         app:tint="@color/white" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/alert_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:itemCount="3"
+        tools:listitem="@layout/alert_item" />
 </androidx.constraintlayout.widget.ConstraintLayout>

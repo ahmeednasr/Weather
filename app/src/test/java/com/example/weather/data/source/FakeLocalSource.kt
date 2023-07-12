@@ -7,10 +7,10 @@ import com.example.weather.system.companion.MyCompanion
 
 class FakeLocalSource(
     var cities: MutableList<CityPojo> = mutableListOf(),
-    var locationKey: String,
+    var locationKey: String?,
     var lat: Double?,
-    var long: Double?
-
+    var long: Double?,
+    private var tempUnitToken: String? = null, private var speedUnitToken: String? = null
 ) : LocalSource {
     override suspend fun getLocalCities(): List<CityPojo> {
         return cities.toList()
@@ -27,16 +27,16 @@ class FakeLocalSource(
     override fun getLocationType(): String {
         val default = MyCompanion.GPS
         return when (locationKey) {
-            MyCompanion.GPS -> locationKey
-            MyCompanion.MAP -> locationKey
+            MyCompanion.GPS -> locationKey!!
+            MyCompanion.MAP -> locationKey!!
             else -> {
                 default
             }
         }
     }
 
-    override fun setLocationType(type: String) {
-        locationKey = type
+    override fun setLocationType(key: String) {
+        locationKey = key
     }
 
     override fun getMapDetails(): Pair<Double, Double> {
@@ -51,18 +51,36 @@ class FakeLocalSource(
     }
 
     override fun getSpeedUnit(): String {
-        TODO("Not yet implemented")
+        var speedUnit = ""
+        val default = MyCompanion.METER_PER_SECOND
+        speedUnit = when (speedUnitToken) {
+            MyCompanion.METER_PER_SECOND -> speedUnitToken!!
+            MyCompanion.MILES_PER_HOUR -> speedUnitToken!!
+            else -> {
+                default
+            }
+        }
+        return speedUnit
     }
 
     override fun getTempUnit(): String {
-        TODO("Not yet implemented")
+        var tempUnit = ""
+        val default = MyCompanion.K
+        tempUnit = when (tempUnitToken) {
+            MyCompanion.C -> tempUnitToken!!
+            MyCompanion.F -> tempUnitToken!!
+            else -> {
+                default
+            }
+        }
+        return tempUnit
     }
 
     override fun cacheResponse(response: LocationWeatherResponse) {
         TODO("Not yet implemented")
     }
 
-    override fun getCachedResponse(): LocationWeatherResponse {
+    override fun getCachedResponse(): LocationWeatherResponse? {
         TODO("Not yet implemented")
     }
 }

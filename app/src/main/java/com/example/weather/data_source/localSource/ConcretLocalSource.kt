@@ -116,8 +116,9 @@ class ConcretLocalSource(private val context: Context) : LocalSource {
         editor.putString(MyCompanion.CACHED_LOCATION, json).apply()
     }
 
-    override fun getCachedResponse(): LocationWeatherResponse {
+    override fun getCachedResponse(): LocationWeatherResponse? {
         val json: String = sharedPreferences.getString(MyCompanion.CACHED_LOCATION, null).toString()
         return Gson().fromJson(json, LocationWeatherResponse::class.java)
+
     }
 }

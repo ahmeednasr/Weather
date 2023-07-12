@@ -1,6 +1,8 @@
 package com.example.weather.data.source
 
+import com.example.weather.data_source.ConnectionResult
 import com.example.weather.data_source.location_weather_repo.LocationWeatherRepoInterface
+import com.example.weather.data_source.location_weather_repo.current_pojo.CurrentPojo
 import com.example.weather.data_source.location_weather_repo.location_weather_pojo.LocationWeatherResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -23,20 +25,32 @@ class FakeLocationWeatherRepo(
         }.flowOn(Dispatchers.IO)
     }
 
+    override suspend fun getCurrentCity(
+        latitude: Double,
+        longitude: Double,
+        language: String
+    ): ConnectionResult<CurrentPojo> {
+        return ConnectionResult.Success(remoteSource.getCurrentCity(latitude, longitude, language))
+    }
+
+    override fun setLocationType(key: String) {
+        localSource.setLocationType(key)
+    }
+
     override fun getLocationType(): String {
-        TODO("Not yet implemented")
+        return localSource.getLocationType()
     }
 
     override fun getMapDetails(): Pair<Double, Double> {
-        TODO("Not yet implemented")
+        return localSource.getMapDetails()
     }
 
     override fun getSpeedUnit(): String {
-        TODO("Not yet implemented")
+        return localSource.getSpeedUnit()
     }
 
     override fun getTempUnit(): String {
-        TODO("Not yet implemented")
+        return localSource.getTempUnit()
     }
 
     override fun cacheResponse(response: LocationWeatherResponse) {

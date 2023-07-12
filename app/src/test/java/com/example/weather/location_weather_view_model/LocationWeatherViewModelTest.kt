@@ -1,6 +1,5 @@
 package com.example.weather.location_weather_view_model
 
-import android.util.Log
 import com.example.weather.MainDispatcherRule
 import com.example.weather.data.source.FakeLocalSource
 import com.example.weather.data.source.FakeLocationWeatherRepo
@@ -9,18 +8,13 @@ import com.example.weather.data.source.FakeResponse
 import com.example.weather.data_source.location_weather_repo.LocationWeatherApiState
 import com.example.weather.data_source.location_weather_repo.LocationWeatherRepo
 import com.example.weather.data_source.search_repo.search_result_pojo.CityPojo
-import com.example.weather.home.location_weather_view_model.LocationWeatherViewModel
 import com.example.weather.system.companion.MyCompanion
+import com.example.weather.views.location_weather_view_model.LocationWeatherViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.MainCoroutineDispatcher
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.internal.MainDispatcherFactory
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.*
 import org.hamcrest.core.IsEqual
 import org.junit.After
-import org.junit.Assert
 import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Rule
@@ -29,6 +23,7 @@ import org.junit.Test
 
 class LocationWeatherViewModelTest {
     val fakeResponse = FakeResponse.locationWeatherResponse
+    val fakeCurrentCity = FakeResponse.currentCity
     lateinit var fakeLocalSource: FakeLocalSource
     lateinit var fakeRemoteDataSource: FakeRemoteDataSource
 
@@ -43,21 +38,16 @@ class LocationWeatherViewModelTest {
     @Before
     fun setUp() {
         fakeLocalSource =
-            FakeLocalSource(listOf<CityPojo>().toMutableList(), MyCompanion.GPS, null, null)
-        fakeRemoteDataSource = FakeRemoteDataSource(fakeResponse)
+            FakeLocalSource(listOf<CityPojo>().toMutableList(), null, null, null)
+        fakeRemoteDataSource = FakeRemoteDataSource(fakeResponse, fakeCurrentCity)
         fakeRepo = FakeLocationWeatherRepo(fakeRemoteDataSource, fakeLocalSource)
         fakeViewModel = LocationWeatherViewModel(fakeRepo)
         repo = LocationWeatherRepo.getInstance(fakeRemoteDataSource, fakeLocalSource)
         viewModel = LocationWeatherViewModel(repo)
     }
 
-    @After
-    fun tearDown() {
-        Dispatchers.resetMain()
-    }
-
     @Test
-    fun `getCurrentLocationResponse locationLatLongAndLanguage ApiStateIs`() = runTest {
+    fun `getCurrentLocationResponse locationLatLongAndLanguage ApiStateStateIsLoading`() = runTest {
         //when
         val state = fakeViewModel.responseFlow.value
         assertThat(
@@ -66,40 +56,53 @@ class LocationWeatherViewModelTest {
         )
         fakeViewModel.getCurrentLocationResponse(37.77, -122.42, "en")
         val sState = fakeViewModel.responseFlow.value
-        //then
-        when (sState) {
-            is LocationWeatherApiState.Success -> assertThat(
-                sState.data, IsEqual(fakeResponse)
-            )
-            is LocationWeatherApiState.Loading -> assertThat(
-                sState,
-                IsEqual(LocationWeatherApiState.Loading)
-            )
-            else -> {}
-        }
+        assertThat(
+            LocationWeatherApiState.Loading,
+            IsEqual(sState)
+        )
     }
 
     @Test
-    fun `getCurrentLocationResponse locationLatLongAndLanguage ApiStateIsSuccess`() = runTest {
-        //when
-        val state = viewModel.responseFlow.value
-        assertThat(
-            LocationWeatherApiState.Loading,
-            IsEqual(state)
-        )
-        viewModel.getCurrentLocationResponse(37.77, -122.42, "en")
-        val sState = viewModel.responseFlow.value
-        //then
-        when (sState) {
-            is LocationWeatherApiState.Success -> assertThat(
-                sState.data, IsEqual(fakeResponse)
-            )
-            is LocationWeatherApiState.Loading -> assertThat(
-                sState,
-                IsEqual(LocationWeatherApiState.Loading)
-            )
-            else -> {}
+    fun `getCurrentLocationResponse locationLatLongAndLanguage ApiStates`() =
+        runTest {
+
+            //when
+            viewModel.getCurrentLocationResponse(37.77, -122.42, "en")
+            val state = viewModel.responseFlow.value
+            //then
+            when (state) {
+                is LocationWeatherApiState.Success -> assertThat(
+                    state.data, IsEqual(fakeResponse)
+                )
+                is LocationWeatherApiState.Loading -> assertThat(
+                    state,
+                    IsEqual(LocationWeatherApiState.Loading)
+                )
+                else -> {
+                    val e: Exception = Exception()
+                    assertThat(
+                        state,
+                        IsEqual(LocationWeatherApiState.Failure(e))
+                    )
+                }
+            }
         }
+    @Test
+    fun `getLocationType KeyIsnullIsGetGPSAsDefault`() {
+        //when
+        val key = viewModel.getLocationType()
+        //then
+        assertThat(key, IsEqual(MyCompanion.GPS))
     }
+
+    @Test
+    fun `getLocationType afterChangeKey`() {
+        //when
+        viewModel.setLocationType(MyCompanion.MAP)
+        val key = viewModel.getLocationType()
+        //then
+        assertThat(key, IsEqual(MyCompanion.MAP))
+    }
+
 }
 

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.weather.home_view.HomeView"
+        android:name="com.example.weather.views.home_view.HomeView"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home">
         <argument
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.example.weather.settings.SettingsFragment"
+        android:name="com.example.weather.views.settings.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings">
         <action
@@ -26,16 +26,16 @@
     </fragment>
     <fragment
         android:id="@+id/weatherAlertsFragment"
-        android:name="com.example.weather.alerts_view.WeatherAlertsFragment"
+        android:name="com.example.weather.views.alerts_view.WeatherAlertsFragment"
         android:label="fragment_weather_alerts"
-        tools:layout="@layout/fragment_weather_alerts" >
+        tools:layout="@layout/fragment_weather_alerts">
         <action
             android:id="@+id/action_weatherAlertsFragment_to_myMapFragment"
             app:destination="@id/myMapFragment" />
     </fragment>
     <fragment
         android:id="@+id/myMapFragment"
-        android:name="com.example.weather.map.MapView"
+        android:name="com.example.weather.views.map.MapView"
         android:label="fragment_my_map"
         tools:layout="@layout/fragment_my_map">
         <argument
@@ -47,12 +47,12 @@
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.example.weather.search.search_view.SearchView"
+        android:name="com.example.weather.views.search.search_view.SearchView"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="com.example.weather.favorite_view.FavoriteView"
+        android:name="com.example.weather.views.favorite_view.FavoriteView"
         android:label="fragment_favorite"
         tools:layout="@layout/fragment_favorite">
         <action
@@ -68,13 +68,13 @@
     </fragment>
     <fragment
         android:id="@+id/cityView"
-        android:name="com.example.weather.city_view.CityView"
+        android:name="com.example.weather.views.city_view.CityView"
         android:label="fragment_city_view"
-        tools:layout="@layout/fragment_city_view" >
+        tools:layout="@layout/fragment_city_view">
         <argument
             android:name="city"
+            android:defaultValue="@null"
             app:argType="com.example.weather.data_source.search_repo.search_result_pojo.CityPojo"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
     </fragment>
 </navigation>

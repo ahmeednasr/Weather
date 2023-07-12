@@ -7,6 +7,7 @@ import com.example.weather.data_source.favorite_repo.FavoriteRepo
 import com.example.weather.data_source.search_repo.search_result_pojo.CityPojo
 import com.example.weather.getOrAwaitValue
 import com.example.weather.system.companion.MyCompanion
+import com.example.weather.views.favorite_view.FavoriteViewModel
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule

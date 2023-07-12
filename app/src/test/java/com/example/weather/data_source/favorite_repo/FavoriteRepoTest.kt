@@ -36,7 +36,6 @@ class FavoriteRepoTest {
     fun `getSavedCities getListOfSavedCity`() = runBlockingTest {
         //when
         var result = repo.getSavedCities()
-
         //then
         assertThat(result, IsEqual(savedCities))
     }

@@ -25,26 +25,6 @@
             android:value="AIzaSyAWElsI7ATMbgeKeX-qZOHD-U5uiSNmzU0" />
 
         <activity
-            android:name=".map.MapActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".system_settings.SetSetting"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-
-        <service
-            android:name=".services.TimeService"
-            android:enabled="true"
-            android:exported="true" />
-
-        <activity
             android:name=".Splash"
             android:exported="true">
             <intent-filter>

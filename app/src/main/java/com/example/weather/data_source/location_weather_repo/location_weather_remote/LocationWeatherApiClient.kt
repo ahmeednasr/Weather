@@ -1,6 +1,7 @@
 package com.example.weather.data_source.location_weather_repo.location_weather_remote
 
 import android.util.Log
+import com.example.weather.data_source.location_weather_repo.current_pojo.CurrentPojo
 import com.example.weather.data_source.location_weather_repo.location_weather_pojo.LocationWeatherResponse
 import com.google.gson.Gson
 import retrofit2.Retrofit
@@ -41,5 +42,13 @@ class LocationWeatherApiClient :
             retrofit.getCurrentLocationWeather(latitude, longitude, language)
         Log.d("errMy", response.toString())
         return response
+    }
+
+    override suspend fun getCurrentCity(
+        latitude: Double,
+        longitude: Double,
+        language: String
+    ): CurrentPojo {
+        return retrofit.getCurrentCity(latitude, longitude, language)
     }
 }

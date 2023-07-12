@@ -3,10 +3,6 @@ package com.example.weather.main_activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.graphics.drawable.ColorDrawable
-import android.net.ConnectivityManager
-import android.net.Network
-import android.net.NetworkCapabilities
-import android.net.NetworkRequest
 import android.os.Build
 import android.os.Bundle
 import android.text.Spannable
@@ -28,9 +24,12 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.example.weather.R
 import com.example.weather.system.companion.ContextUtils
+import com.example.weather.views.home_view.ConnectivityObserver
+import com.example.weather.views.home_view.NetworkConnectivityObserver
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -40,6 +39,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var drawerLayout: DrawerLayout
     lateinit var mainViewModel: MainViewModel
     lateinit var rootView: View
+    private lateinit var connectivityObserver: ConnectivityObserver
+
     override fun attachBaseContext(newBase: Context) {
         val localeUpdatedContext: ContextWrapper =
             ContextUtils.updateLocale(newBase, Locale.getDefault())
@@ -50,6 +51,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        connectivityObserver = NetworkConnectivityObserver(applicationContext)
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         drawerLayout = findViewById(R.id.drawer_layout)
@@ -83,35 +85,38 @@ class MainActivity : AppCompatActivity() {
             navController = Navigation.findNavController(this, R.id.navHostFragment)
             NavigationUI.setupWithNavController(navigationView, navController)
         }
+        supportFragmentManager.beginTransaction()
+            .show(navHostFragment)
+            .commit()
         mainFactory = MainFactory()
         mainViewModel = ViewModelProvider(this, mainFactory)[MainViewModel::class.java]
 
-        getConnection()
-        lifecycleScope.launch {
+        connectivityObserver.observe().onEach { result ->
+            when (result) {
+                ConnectivityObserver.Status.Available -> {
+                    Log.i("Connection", "Available act")
+                    Snackbar.make(
+                        rootView, "online mode", Snackbar.LENGTH_SHORT
+                    ).show()
+                }
+                ConnectivityObserver.Status.Unavailable -> {
+                    Log.i("Connection", "Unavailable act")
+                    Snackbar.make(
+                        rootView, "offline mode", Snackbar.LENGTH_SHORT
+                    ).show()
 
-            mainViewModel.connectionFlow.collect { result ->
-                when (result) {
-                    is ConnectionState.Success -> {
-                        supportFragmentManager.beginTransaction()
-                            .show(navHostFragment)
-                            .commit()
-                    }
-                    is ConnectionState.Lose -> {
-//                        supportFragmentManager.beginTransaction()
-//                            .hide(navHostFragment)
-//                            .commit()
-                        Snackbar.make(
-                            rootView, "lose Network", Snackbar.LENGTH_SHORT
-                        ).show()
-                    }
-                    else -> {
-
-                    }
+                }
+                ConnectivityObserver.Status.Losing -> {
+                    Log.i("Connection", "Losing act")
+                }
+                ConnectivityObserver.Status.Lost -> {
+                    Log.i("Connection", "Lost act")
+                    Snackbar.make(
+                        rootView, "offline mode", Snackbar.LENGTH_SHORT
+                    ).show()
                 }
             }
-
-        }
-
+        }.launchIn(lifecycleScope)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -125,37 +130,4 @@ class MainActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-
-    private fun getConnection() {
-        val connectivityManager =
-            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-        val networkCallback = object : ConnectivityManager.NetworkCallback() {
-            override fun onAvailable(network: Network) {
-                super.onAvailable(network)
-                Log.i("NETWORK", "onAvailable")
-                mainViewModel.setConnectionState(ConnectionState.Success("connect"))
-
-            }
-
-            override fun onLost(network: Network) {
-                super.onLost(network)
-                Log.i("NETWORK", "onLost")
-                mainViewModel.setConnectionState(ConnectionState.Lose("lose"))
-
-                Snackbar.make(
-                    rootView, "lose Network", Snackbar.LENGTH_SHORT
-                ).show()
-            }
-        }
-
-        val networkRequest = NetworkRequest.Builder()
-            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-            .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-            .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
-            .build()
-
-        connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
-    }
-
 }

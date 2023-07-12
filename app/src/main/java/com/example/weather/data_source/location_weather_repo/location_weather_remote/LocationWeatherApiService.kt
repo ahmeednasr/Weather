@@ -1,5 +1,6 @@
 package com.example.weather.data_source.location_weather_repo.location_weather_remote
 
+import com.example.weather.data_source.location_weather_repo.current_pojo.CurrentPojo
 import com.example.weather.data_source.location_weather_repo.location_weather_pojo.LocationWeatherResponse
 import com.example.weather.system.companion.MyCompanion
 import retrofit2.http.GET
@@ -11,7 +12,15 @@ interface LocationWeatherApiService {
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double,
         @Query("lang") language: String,
-        @Query("exclude") exclude: String="minutely",
+        @Query("exclude") exclude: String = "minutely",
         @Query("appid") apiKey: String = MyCompanion.API_Key
     ): LocationWeatherResponse
+
+    @GET("weather")
+    suspend fun getCurrentCity(
+        @Query("lat") latitude: Double,
+        @Query("lon") longitude: Double,
+        @Query("lang") language: String,
+        @Query("appid") apiKey: String = MyCompanion.API_Key
+    ): CurrentPojo
 }

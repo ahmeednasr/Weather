@@ -20,7 +20,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/fav_card"
+        android:id="@+id/alert_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -32,8 +32,9 @@
             android:layout_marginTop="8dp"
             android:text="Makkah Al Mukarramah"
             android:textColor="#FFFFFF"
-            android:textSize="24dp"
+            android:textSize="20sp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/remove"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -44,7 +45,7 @@
             android:layout_marginBottom="8dp"
             android:text="16,may 12:45 AM"
             android:textColor="#FFFFFF"
-            android:textSize="20sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/city_name"
             app:layout_constraintTop_toBottomOf="@+id/city_name" />
@@ -56,8 +57,8 @@
             android:layout_marginEnd="8dp"
             android:background="@android:color/transparent"
             android:contentDescription="@string/add"
-            android:minWidth="55dp"
-            android:minHeight="55dp"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
             android:scaleType="fitCenter"
 
             app:layout_constraintBottom_toBottomOf="parent"

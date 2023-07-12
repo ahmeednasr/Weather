@@ -72,7 +72,7 @@
                                 android:elevation="30dp"
                                 android:text="26"
                                 android:textColor="@color/white"
-                                android:textSize="48sp"
+                                android:textSize="34sp"
                                 android:textStyle="bold" />
 
                             <TextView
