@@ -2,6 +2,7 @@ package com.example.weather.data_source.alert_repo.alert_local
 
 import androidx.room.*
 import com.example.weather.data_source.alert_repo.alert_pojo.SavedAlert
+import java.util.*
 
 @Dao
 interface AlertDao {
@@ -11,7 +12,7 @@ interface AlertDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(savedAlert: SavedAlert)
 
-    @Delete
-    suspend fun delete(savedAlert: SavedAlert)
+    @Query("DELETE FROM saved_alerts WHERE workerId = :uuid")
+    suspend fun delete(uuid: UUID)
 
 }

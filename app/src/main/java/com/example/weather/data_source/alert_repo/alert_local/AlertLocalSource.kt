@@ -28,6 +28,7 @@ class AlertLocalSource(private val context: Context) : AlertLocalSourceInterface
     }
 
     override suspend fun removeAlert(alert: SavedAlert) {
-        dao.delete(alert)
+
+        dao.delete(alert.workerId)
     }
 }

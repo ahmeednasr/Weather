@@ -6,7 +6,11 @@ import com.example.weather.data_source.search_repo.search_result_pojo.CityPojo
 class MyCompanion {
 
     companion object {
-        const val APP_CHANEL = "APP_CHANEL"
+        const val NOTIFI_OPTION = "NOTIFI_OPTION"
+        const val END_TIME = "END_TIME"
+        const val START_TIME = "START_TIME"
+
+        const val APP_CHANEL = "WeatherApp"
         const val API_Key = "a117466978c46167246dc8d6a700cce6"
 
         fun getIconLink(id: String): String {

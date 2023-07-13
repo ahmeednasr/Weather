@@ -19,13 +19,17 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.Constraints
+import androidx.work.Data
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.weather.R
 import com.example.weather.data_source.ConnectionResult
 import com.example.weather.data_source.alert_repo.AlertRepo
 import com.example.weather.data_source.alert_repo.alert_local.AlertLocalSource
 import com.example.weather.data_source.alert_repo.alert_pojo.SavedAlert
 import com.example.weather.data_source.alert_repo.alert_remote.AlertApiClient
-import com.example.weather.data_source.alert_repo.alert_remote.AlertRemoteSource
 import com.example.weather.databinding.AlertPopupBinding
 import com.example.weather.databinding.FragmentWeatherAlertsBinding
 import com.example.weather.system.companion.MyCompanion
@@ -33,6 +37,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 class WeatherAlertsFragment : Fragment(), OnAlertRemoveListener {
@@ -92,7 +97,7 @@ class WeatherAlertsFragment : Fragment(), OnAlertRemoveListener {
             latitude = result.getDouble("latitude")
             longitude = result.getDouble("longitude")
             Log.i("MAP", "lat: $latitude , long: $longitude")
-            viewModel.getRemoteAlert(latitude!!, longitude!!)
+            // viewModel.getRemoteAlert(latitude!!, longitude!!)
             showDialog()
         }
         lifecycleScope.launch {
@@ -141,6 +146,7 @@ class WeatherAlertsFragment : Fragment(), OnAlertRemoveListener {
 
         }
         popUpBinding.toBtn.setOnClickListener {
+
             getTimeStamp { it ->
                 if (timeComparison(fromTime, it)) {
                     toTime = it
@@ -172,6 +178,29 @@ class WeatherAlertsFragment : Fragment(), OnAlertRemoveListener {
         popUpBinding.addBtn.setOnClickListener {
 
             if (timeComparison(fromTime, toTime)) {
+                val inputDate = Data.Builder().apply {
+                    putLong(MyCompanion.START_TIME, fromTime.div(1000))
+                    putLong(MyCompanion.END_TIME, toTime.div(1000))
+                    putDouble(MyCompanion.LATITUDE, latitude!!)
+                    putDouble(MyCompanion.LONGITUDE, longitude!!)
+                    putString(MyCompanion.NOTIFI_OPTION, MyCompanion.NOTIFICATION)
+                }.build()
+                val constraints = Constraints.Builder()
+                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                    .build()
+                val request =
+                    OneTimeWorkRequestBuilder<AlertWorker>().apply {
+                        setConstraints(constraints)
+                        setInputData(inputDate)
+                        setInitialDelay(
+                            fromTime - System.currentTimeMillis(),
+                            TimeUnit.MILLISECONDS
+                        )
+                    }.build()
+                WorkManager.getInstance(ctx).enqueue(request)
+                val infos = WorkManager.getInstance(ctx).getWorkInfoById(request.id).get()
+                Log.i("INFOS", infos.toString())
+                //alertEntity.id = request.id
                 Toast.makeText(
                     ctx,
                     "f: $fromTime t: $toTime lat: $latitude long: $longitude",
@@ -251,6 +280,7 @@ class WeatherAlertsFragment : Fragment(), OnAlertRemoveListener {
     }
 
     override fun onRemove(alert: SavedAlert) {
-        TODO("Not yet implemented")
+        viewModel.deleteAlert(alert)
+        WorkManager.getInstance(ctx).cancelWorkById(alert.workerId)
     }
 }
